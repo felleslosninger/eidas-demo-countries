@@ -18,6 +18,13 @@ RUN sed -i 's/localhost:8080\/SP/localhost:8081\/SP/g' $config_path/sp/sp.proper
 RUN sed -i 's/localhost:8080/localhost:8081/g' $config_path/specificConnector/specificConnector.xml
 RUN sed -i 's/localhost:8080/localhost:8081/g' $config_path/specificProxyService/specificProxyService.xml
 
+#RUN sed -i 's/localhost:8080\/EidasNodeConnector\/ServiceProvider/eidas-demo-ca:8080\/EidasNodeConnector\/ServiceProvider/g' $config_path/sp/sp.properties
+#RUN sed -i 's/localhost:8081\/EidasNodeConnector\/ServiceProvider/eidas-demo-ca:8081\/EidasNodeConnector\/ServiceProvider/g' $config_path/sp/sp.properties
+RUN sed -i 's/localhost:8080\/EidasNodeProxy\/ServiceMetadata/eidas-demo-ca:8080\/EidasNodeProxy\/ServiceMetadata/g' $config_path/connector/eidas.xml
+RUN sed -i 's/localhost:8081\/EidasNodeProxy\/ServiceMetadata/eidas-demo-cb:8080\/EidasNodeProxy\/ServiceMetadata/g' $config_path/connector/eidas.xml
+RUN sed -i 's/localhost:8081\/EidasNodeProxy\/ServiceMetadata/eidas-demo-cb:8080\/EidasNodeProxy\/ServiceMetadata/g' $config_path/proxy/eidas.xml
+
+COPY docker/config/MetadataFetcher_Connector.properties $config_path/connector/metadata/MetadataFetcher_Connector.properties
 
 FROM tomcat:9.0-jre11-temurin-jammy
 # install bouncycastle
@@ -36,6 +43,6 @@ COPY --from=builder /tmp/tomcat/ /usr/local/tomcat/eidas-config/
 COPY docker/config/setenv.sh /usr/local/tomcat/bin/
 
 # Add war files to webapps: /usr/local/tomcat/webapps
-COPY docker/wars-2.7.1/*.war /usr/local/tomcat/webapps/
+COPY docker/eidas-wars-2.7.1/*.war /usr/local/tomcat/webapps/
 
 EXPOSE 8080

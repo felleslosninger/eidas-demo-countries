@@ -6,10 +6,14 @@ RUN apk add --no-cache zip unzip
 # unzip and add config
 ADD docker/config/eidas-config-2.7.1.zip /tmp/eidas-config.zip
 RUN unzip /tmp/eidas-config.zip -d /tmp/
-RUN ls -lt /tmp/*
-
-RUN cd /tmp/tomcat
-RUN cd /tmp/tomcat/sp
+ENV config_path=/tmp/tomcat
+RUN cd $config_path
+#RUN sed -i 's/localhost:8080\/EidasNodeConnector\/ServiceProvider/eidas-demo-ca:8080\/EidasNodeConnector\/ServiceProvider/g' $config_path/sp/sp.properties
+#RUN sed -i 's/localhost:8081\/EidasNodeConnector\/ServiceProvider/eidas-demo-ca:8081\/EidasNodeConnector\/ServiceProvider/g' $config_path/sp/sp.properties
+RUN sed -i 's/localhost:8080\/EidasNodeProxy\/ServiceMetadata/eidas-demo-ca:8080\/EidasNodeProxy\/ServiceMetadata/g' $config_path/connector/eidas.xml
+RUN sed -i 's/localhost:8081\/EidasNodeProxy\/ServiceMetadata/eidas-demo-cb:8080\/EidasNodeProxy\/ServiceMetadata/g' $config_path/connector/eidas.xml
+RUN sed -i 's/localhost:8080\/EidasNodeProxy\/ServiceMetadata/eidas-demo-cb:8080\/EidasNodeProxy\/ServiceMetadata/g' $config_path/proxy/eidas.xml
+COPY docker/config/MetadataFetcher_Connector.properties $config_path/connector/metadata/MetadataFetcher_Connector.properties
 
 FROM tomcat:9.0-jre11-temurin-jammy
 # install bouncycastle
@@ -28,6 +32,6 @@ RUN ls -la /usr/local/tomcat/eidas-config/*
 COPY docker/config/setenv.sh /usr/local/tomcat/bin/
 
 # Add war files to webapps: /usr/local/tomcat/webapps
-COPY docker/wars-2.7.1/*.war /usr/local/tomcat/webapps/
+COPY docker/eidas-wars-2.7.1/*.war /usr/local/tomcat/webapps/
 
 EXPOSE 8080
