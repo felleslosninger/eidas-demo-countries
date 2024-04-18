@@ -22,7 +22,7 @@ This will run two docker services each with a tomcat instance with all the six E
 
 To test go to: http://eidas-demo-ca:8080/SP
 and choose SP Country: CA and Citizen Country: CB.
-Then select "Do not request" in section "Requested core attributes" and show natural person and click as optional the 4 required attributes. Then next until reach idp.
+Then select "Do not request" in section "Requested core attributes" and show natural person and click as optional or mandatory the 4 required attributes. Then next until reach idp.
 Users are listed in <tomcat>/eu-config/idp/user.properties folder in the docker container on format <username>=<passord>. You may start with dim=dim. 
 
 Country CA is on port 8080 and Country CB is on port 8081.
@@ -30,4 +30,4 @@ Country CA is on port 8080 and Country CB is on port 8081.
 To setup more counties duplicate dev.CB.Dockerfile and modifiy to port for a different country, the eu-config package supports 6 countries: CA, CB, CC, CD, CE, CF.
 E.g as listed in eidas-config/sp/sp.properties inside the docker container.
 
-# TODO run for testing environment
+# <TODO> Run for testing environment

@@ -1,11 +1,24 @@
 FROM alpine:latest as builder
 
 # Install software
-RUN apk add --no-cache zip unzip
+RUN apk add --no-cache zip unzip curl
+
+WORKDIR /data
+
+ARG EIDAS_NODE_VERSION=2.7.1
+ARG EIDAS_NODE_URL=https://ec.europa.eu/digital-building-blocks/artifact/repository/eid/eu/eIDAS-node/${EIDAS_NODE_VERSION}/eIDAS-node-${EIDAS_NODE_VERSION}.zip
+
+# Download eIDAS-Node Software
+RUN curl ${EIDAS_NODE_URL} -o eIDAS-node-dl.zip
+
+# Unzip eIDAS-Node Software
+RUN unzip eIDAS-node-dl.zip && \
+    unzip EIDAS-Binaries-Tomcat-*.zip
 
 # unzip and add config
-ADD docker/config/eidas-config-2.7.1.zip /tmp/eidas-config.zip
-RUN unzip /tmp/eidas-config.zip -d /tmp/
+#ADD docker/config/eidas-config-2.7.1.zip /tmp/eidas-config.zip
+#RUN unzip /tmp/eidas-config.zip -d /tmp/
+RUN unzip /data/TOMCAT/config.zip -d /tmp/
 ENV config_path=/tmp/tomcat
 RUN cd $config_path
 
@@ -23,6 +36,10 @@ RUN sed -i 's/localhost:8081\/EidasNodeConnector\/ServiceProvider/eidas-demo-cb:
 RUN sed -i 's/localhost:8080\/EidasNodeProxy\/ServiceMetadata/eidas-demo-ca:8080\/EidasNodeProxy\/ServiceMetadata/g' $config_path/connector/eidas.xml
 RUN sed -i 's/localhost:8081\/EidasNodeProxy\/ServiceMetadata/eidas-demo-cb:8081\/EidasNodeProxy\/ServiceMetadata/g' $config_path/connector/eidas.xml
 RUN sed -i 's/localhost:8080\/EidasNodeProxy\/ServiceMetadata/eidas-demo-cb:8081\/EidasNodeProxy\/ServiceMetadata/g' $config_path/proxy/eidas.xml
+
+#metadata add new urls : not working yet
+#RUN sed '1{s/$/-;http:\/\/eidas-demo-ca:8080\/EidasNodeProxy\/ServiceMetadata;http:\/\/eidas-demo-cb:8081\/EidasNodeProxy\/ServiceMetadata/}' $config_path/connector/metadata/MetadataFetcher_Connector.properties
+#RUN sed '18{s/$/-;http:\/\/eidas-demo-ca:8080\/EidasNodeConnector\/ConnectorMetadata;http:\/\/eidas-demo-cb:8081\/EidasNodeConnector\/ConnectorMetadata/}' $config_path//proxy/metadata/MetadataFetcher_Service.properties
 COPY docker/config/MetadataFetcher_Connector.properties $config_path/connector/metadata/MetadataFetcher_Connector.properties
 COPY docker/config/MetadataFetcher_Service.properties $config_path/proxy/metadata/MetadataFetcher_Service.properties
 
@@ -45,7 +62,7 @@ COPY --from=builder /tmp/tomcat/ ${TOMCAT_HOME}/eidas-config/
 COPY docker/config/setenv.sh ${TOMCAT_HOME}/bin/
 
 # Add war files to webapps: /usr/local/tomcat/webapps
-COPY docker/eidas-wars-2.7.1/*.war ${TOMCAT_HOME}/webapps/
+COPY --from=builder /data/TOMCAT/*.war ${TOMCAT_HOME}/webapps/
 
 # eIDAS audit log folder
 RUN mkdir -p ${TOMCAT_HOME}/eidas/logs
