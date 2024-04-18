@@ -55,4 +55,7 @@ COPY docker/config/setenv.sh ${TOMCAT_HOME}/bin/
 # Add war files to webapps: /usr/local/tomcat/webapps
 COPY docker/eidas-wars-2.7.1/*.war ${TOMCAT_HOME}/webapps/
 
+# eIDAS audit log folder
+RUN mkdir -p ${TOMCAT_HOME}/eidas/logs
+
 EXPOSE 8081

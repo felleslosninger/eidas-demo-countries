@@ -4,6 +4,7 @@
 # tomcat options jvm
 export CATALINA_OPTS="-Xms512m -Xmx1024m"
 
+
 # bouncycastle. 
 # Also add line 
 # security.provider.13=org.bouncycastle.jce.provider.BouncyCastleProvider
@@ -24,3 +25,6 @@ export IDP_CONFIG_REPOSITORY="$EIDAS_CONFIG_REPOSITORY/idp/"
 
 echo "EIDAS_CONFIG_REPOSITORY is $EIDAS_CONFIG_REPOSITORY"
 echo "EIDAS_PROXY_CONFIG_REPOSITORY is $EIDAS_PROXY_CONFIG_REPOSITORY"
+
+# Auditlogs config: -DLOG_HOME="<myDirectoryName>"
+export LOG_HOME="/usr/local/tomcat/eidas/logs"
