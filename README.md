@@ -20,8 +20,9 @@ docker-compose up --build
 ```
 This will run two docker services each with a tomcat instance with all the six EU-war files deployed for running demo country.
 
-To test go to: http://localhost:8080/SP
-and choose SP Country: CA and Citizen Country: CB. 
+To test go to: http://eidas-demo-ca:8080/SP
+and choose SP Country: CA and Citizen Country: CB.
+Then select "Do not request" in section "Requested core attributes" and show natural person and click as optional the 4 required attributes. Then next until reach idp.
 Users are listed in <tomcat>/eu-config/idp/user.properties folder in the docker container on format <username>=<passord>. You may start with dim=dim. 
 
 Country CA is on port 8080 and Country CB is on port 8081.
