@@ -7,6 +7,14 @@ See these documents in https://ec.europa.eu/digital-building-blocks/sites/displa
 * eIDAS-Node Installation Quick Start Guide v2.7.pdf
 
 # Run demo country CA and demo country CB as docker-compose on your machine for local testing
+
+Add the following to your /etc/hosts file:
+```
+# eIDAS local dev
+127.0.0.1 eidas-demo-ca
+127.0.0.1 eidas-demo-cb
+```
+Start docker containers:
 ```
 docker-compose up --build
 ```
