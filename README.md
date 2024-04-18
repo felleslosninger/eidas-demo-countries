@@ -7,15 +7,16 @@ eIDAS-node with demo-country (eIDAS-proxy/connector/demo-sp/demo-idp)
 sequenceDiagram
 autonumber
     actor User as Norsk bruker (nettleser)
-    participant SP as Utenlands tjeneste
+    participant SP as Utenlandsk tjeneste
     participant UEC as Utenlandsk eIDAS Connector
-    box lightpink Eidas namespace
+    box lightpink Norsk Eidas node
     participant NEP as Norsk eIDAS Proxy Service
     participant SEP as Specific eIDAS Proxy
     end
     box lightyellow ID-porten
     participant IL as idporten-login
     participant C2ID as idporten-c2id
+    participant FRGW as F-REG gateway
     end
     participant FR as Folkeregisteret
 
@@ -24,38 +25,55 @@ autonumber
     UEC->>NEP: SAML2
     NEP->>SEP: LightProtocol request
     SEP->>SEP: map to OIDC 
-    SEP->>IL: OIDC (acr: eidas-loa-X, scope: eidas:mds?)
+    SEP->>IL: OIDC (acr: idporten-eidas-loa-x(?), scope: eidas:<tbd>)
     Note over IL,C2ID: Autentisering
-    C2ID->>FR: hent persondata
-    C2ID-->>IL: auth code response
     IL-->>SEP: code response
     SEP->>C2ID: getToken
+    C2ID->>FRGW: hent persondata
+    FRGW->>FR: hent persondata
+    C2ID-->>SEP: token response
     SEP->>SEP: map to LightProtocol response
     SEP-->>NEP: LightProtocol response
     NEP-->>UEC: SAML2
     UEC-->>SP: Access Granted
-    SP->>User: Access Granted
+    SP-->>User: Access Granted
 ```    
 
 ## Foreign citizen
 ```mermaid  
 sequenceDiagram
 autonumber
-    participant User as Utenlandsk bruker (browser)
+    actor User as Utenlandsk bruker (Nettle)
     participant SP as Norsk tjeneste
-    participant Idporten as ID-porten
-    participant NEN as Norwegian eIDAS Node
-    participant SEN as Utenlandsk eIDAS Node
-    participant IDP as Identity Provider (Utenlands eID)
+    box lightyellow ID-porten
+    participant IL as idporten-login
+    participant C2ID as Connect2id
+    end
+    box lightpink Norsk Eidas node
+        participant EL as eidas-login
+        participant FRGW as F-REG gateway
+    end
+    participant FR as Folkeregisteret
+    participant NEC as Norsk eidas Connector
+    participant UPS as Utenlandsk eIDAS proxy
+    participant IDP as Utenlandsk eID
 
     User->>SP: Request Access
-    SP->>Idporten: Request Access
-    Idporten->>NEN: Redirect for eID
-    NEN->>SEN: Request Identity Verification
-    SEN->>IDP: Verify with BankID
-    IDP->>SEN: Verification Result
-    SEN->>NEN: Send Verification
-    NEN->>Idporten: Grant Access
-    Idporten->>SP: Grant Access
+    SP->>IL: OIDC (acr: eidas-loa-x)
+    IL->>EL: OIDC
+    rect lightblue
+    EL->>FRGW: Hent persondata
+    FRGW->>FR: Hent persondata
+    end
+    EL->>EL: map to LightProtocol request
+    EL->>NEC: LightProtocol request
+    NEC->>UPS: SAML2
+    UPS->>IDP: autentiser
+    IDP-->> UPS: LightProtocol response
+    UPS-->>NEC: SAML2
+    NEC-->>EL: LightProtocol response
+    EL-->>IL: token response
+    Note over IL,C2ID: sesjonshåndering
+    IL-->>SP: Access Granted
     SP->>User: Access Granted
 ```    
