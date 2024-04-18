@@ -9,6 +9,7 @@ export CATALINA_OPTS="-Xms512m -Xmx1024m"
 # Also add line 
 # security.provider.13=org.bouncycastle.jce.provider.BouncyCastleProvider
 # to file /Library/Java/JavaVirtualMachines/liberica-jdk-11.jdk/Contents/Home/conf/security/java.security
+export JAVA_OPTS="$JAVA_OPTS -Djava.security.properties=/opt/java/openjdk/conf/security/java_bc.security"
 export JAVA_OPTS="$JAVA_OPTS --module-path /usr/local/lib/bcprov-jdk18on-1.78.jar"
 export JAVA_OPTS="$JAVA_OPTS --add-modules org.bouncycastle.provider"
 

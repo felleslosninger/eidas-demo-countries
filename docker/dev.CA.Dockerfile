@@ -50,8 +50,9 @@ ENV TOMCAT_HOME /usr/local/tomcat
 # install bouncycastle
 ##  Add the Bouncy Castle provider jar to the $JAVA_HOME/jre/lib/ext directory
 ## Create a Bouncy Castle provider entry in the $JAVA_HOME/jre/lib/security/java.security file with correct number N: security.provider.N=org.bouncycastle.jce.provider.BouncyCastleProvider
-RUN ls -la /opt/java/openjdk/conf/security/
-COPY docker/config/java.security /opt/java/openjdk/conf/security/java.security
+# Copy customized java security properties file
+COPY docker/config/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
+#COPY docker/config/java.security /opt/java/openjdk/conf/security/java.security
 COPY docker/config/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1.78.jar
 
 # copy eidas-config
