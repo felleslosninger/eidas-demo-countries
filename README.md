@@ -9,9 +9,9 @@ autonumber
     actor User as Norsk bruker (nettleser)
     participant SP as Utenlandsk tjeneste
     participant UEC as Utenlandsk eIDAS Connector
-    box lightpink Norsk Eidas node
-    participant NEP as Norsk eIDAS Proxy Service
-    participant SEP as Specific eIDAS Proxy
+    box lightpink idporten-eidas
+    participant NEP as eu-eidas-proxy
+    participant SEP as eidas-proxy
     end
     box lightyellow ID-porten
     participant IL as idporten-login
@@ -49,12 +49,13 @@ autonumber
     participant IL as idporten-login
     participant C2ID as Connect2id
     end
-    box lightpink Norsk Eidas node
+    box lightpink idporten-eidas
         participant EL as eidas-login
+        participant NEC as eu-eidas-connector
+
         participant FRGW as F-REG gateway
     end
     participant FR as Folkeregisteret
-    participant NEC as Norsk eidas Connector
     participant UPS as Utenlandsk eIDAS proxy
     participant IDP as Utenlandsk eID
 
