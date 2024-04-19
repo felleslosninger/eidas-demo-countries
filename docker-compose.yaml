@@ -1,0 +1,57 @@
+# NB: Login to Azure Container Registery : az login && az acr login -n crutvikling --subscription 0d8a0177-44ad-4a25-a38f-9489f3874db0
+# https://portal.azure.com/#@Nasjonalfelleslosning.onmicrosoft.com/resource/subscriptions/9c0d7873-b8aa-4042-96f8-b8ce5c9888d0/resourceGroups/rg-eid-systest-cr/providers/Microsoft.ContainerRegistry/registries/crutvikling/overview
+
+name: eidas-node-demo
+networks:
+  eidas:
+    name: eidas
+    
+services:
+
+  eidas-demo-ca:
+    build:
+      context: .
+      dockerfile: docker/dev.CA.Dockerfile
+      args:
+        GIT_PACKAGE_TOKEN: ${GIT_PACKAGE_TOKEN}
+        GIT_PACKAGE_USERNAME: ${GIT_PACKAGE_USERNAME}
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://eidas-demo-ca:8080/SP || exit 1
+      interval: 5s
+      start_period: 8s
+      timeout: 5s
+      retries: 20
+    networks:
+      - eidas
+    entrypoint: "/bin/bash -c"
+    command:
+      - |
+        cd /usr/local/tomcat
+        ./bin/catalina.sh run
+
+  eidas-demo-cb:
+    build:
+      context: .
+      dockerfile: docker/dev.CB.Dockerfile
+      args:
+        GIT_PACKAGE_TOKEN: ${GIT_PACKAGE_TOKEN}
+        GIT_PACKAGE_USERNAME: ${GIT_PACKAGE_USERNAME}
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://eidas-demo-cb:8081/SP || exit 1
+      interval: 5s
+      start_period: 8s
+      timeout: 5s
+      retries: 20
+    networks:
+      - eidas
+    entrypoint: "/bin/bash -c"
+    command:
+      - |
+        cd /usr/local/tomcat
+        ./bin/catalina.sh run
+
+
