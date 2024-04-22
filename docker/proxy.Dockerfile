@@ -21,6 +21,7 @@ COPY docker/proxy/config/ $TOMCAT_HOME/eidas-proxy-config
 RUN sed -i 's/EU-PROXY-URL/https:\/\/eu-eidas-proxy.idporten.dev/g' $TOMCAT_HOME/eidas-proxy-config/eidas.xml
 RUN sed -i 's/EIDAS-PROXY-URL/https:\/\/eidas-proxy.idporten.dev/g' $TOMCAT_HOME/eidas-proxy-config/eidas.xml
 RUN sed -i 's/DEMOLAND-CA-URL/https:\/\/eidas-demo-ca.idporten.dev/g' $TOMCAT_HOME/eidas-proxy-config/metadata/MetadataFetcher_Service.properties
+RUN sed -i 's/NO-EU-EIDAS-CONNECTOR-URL/https:\/\/eu-eidas-connector.idporten.dev/g' $TOMCAT_HOME/eidas-proxy-config/metadata/MetadataFetcher_Service.properties
 
 COPY docker/proxy/tomcat-setenv.sh ${TOMCAT_HOME}/bin/setenv.sh
 

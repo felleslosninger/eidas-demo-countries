@@ -27,20 +27,20 @@
     <entry key="service.metadata.url">EU-PROXY-URL/EidasNodeProxy/ServiceMetadata</entry>
 
     <!-- ProxyService contact -->
-    <entry key="service.contact.support.email">contact.support@eidas-proxyservice.eu</entry>
-    <entry key="service.contact.support.company">eIDAS ProxyService Operator</entry>
-    <entry key="service.contact.support.givenname">John</entry>
-    <entry key="service.contact.support.surname">Doe</entry>
-    <entry key="service.contact.support.phone">+42 123456</entry>
-    <entry key="service.contact.technical.email">contact.technical@eidas-proxyservice.eu</entry>
-    <entry key="service.contact.technical.company">eIDAS ProxyService Operator</entry>
-    <entry key="service.contact.technical.givenname">John</entry>
-    <entry key="service.contact.technical.surname">Doe</entry>
-    <entry key="service.contact.technical.phone">+43 123456</entry>
+    <entry key="service.contact.support.email">servicedesk@digdir.no</entry>
+    <entry key="service.contact.support.company">The Norwegian Digitalisation Agency</entry>
+    <entry key="service.contact.support.givenname">NA</entry>
+    <entry key="service.contact.support.surname">NA</entry>
+    <entry key="service.contact.support.phone">+47 95736103</entry> ><!-- Endre? Telefon ved hastesaker til teknisk forvaltning -->
+    <entry key="service.contact.technical.email">servicedesk@digdir.no</entry>
+    <entry key="service.contact.technical.company">The Norwegian Digitalisation Agency</entry>
+    <entry key="service.contact.technical.givenname">NA</entry>
+    <entry key="service.contact.technical.surname">NA</entry>
+    <entry key="service.contact.technical.phone">+47 95736103</entry> <!-- Endre? Telefon ved hastesaker til teknisk forvaltning -->
     <!-- ProxyService organization -->
-    <entry key="service.organization.name">Sample Country Proxy Service</entry>
-    <entry key="service.organization.displayname">Service</entry>
-    <entry key="service.organization.url">https://service.sample/info</entry>
+    <entry key="service.organization.name">The Norwegian Digitalisation Agency</entry>
+    <entry key="service.organization.displayname">The Norwegian Digitalisation Agency</entry>
+    <entry key="service.organization.url">https://www.digdir.no/</entry>
 
     <!-- Eidas Node Service Metadata Single Sign On locations for ServiceMetadata-->
     <entry key="ssos.serviceMetadataGeneratorIDP.redirect.location">EU-PROXY-URL/EidasNodeProxy/ColleagueRequest</entry>
@@ -54,7 +54,7 @@
     <entry key="metadata.node.country">NO</entry>
 
     <!-- Restrict metadata retrieval to https -->
-    <entry key="metadata.restrict.http">false</entry> <!-- TODO: change to true default and alter to false for local dev -->
+    <entry key="metadata.restrict.http">true</entry>
     <!--URL for specific-proxyService requests receiver only needed when specific  -->
     <entry key="specific.proxyservice.request.receiver">EIDAS-PROXY-URL/SpecificProxyService/ProxyServiceRequest</entry>
 
