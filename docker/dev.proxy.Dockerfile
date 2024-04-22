@@ -17,13 +17,13 @@ ENV TOMCAT_HOME /usr/local/tomcat
 # change tomcat port
 RUN sed -i 's/port="8080"/port="8082"/' ${TOMCAT_HOME}/conf/server.xml
 
-RUN mkdir -p $TOMCAT_HOME/eidas-proxy-config/
-COPY docker/proxy/config/ $config_path/eidas-proxy-config
+RUN mkdir -p $TOMCAT_HOME/eidas-proxy-config/ && pwd
+COPY docker/proxy/config/ $TOMCAT_HOME/eidas-proxy-config
 
 # Replace base URLs in eidas.xml and metadata (whitelist). TODO: move to environment specific k8 config
-RUN sed -i 's/EU-PROXY-URL/http:\/\/eu-eidas-proxy:8082/g' $config_path/eidas-proxy-config/eidas.xml
-RUN sed -i 's/EIDAS-PROXY-URL/http:\/\/eidas-proxy:8081/g' $config_path/eidas-proxy-config/eidas.xml
-RUN sed -i 's/DEMOLAND-CA-URL/http:\/\/eidas-demo-ca:8080/g' $config_path/eidas-proxy-config/metadata/MetadataFetcher_Service.properties
+RUN sed -i 's/EU-PROXY-URL/http:\/\/eu-eidas-proxy:8082/g' ${TOMCAT_HOME}/eidas-proxy-config/eidas.xml
+RUN sed -i 's/EIDAS-PROXY-URL/http:\/\/eidas-proxy:8081/g' ${TOMCAT_HOME}/eidas-proxy-config/eidas.xml
+RUN sed -i 's/DEMOLAND-CA-URL/http:\/\/eidas-demo-ca:8080/g' ${TOMCAT_HOME}/eidas-proxy-config/metadata/MetadataFetcher_Service.properties
 
 COPY docker/proxy/tomcat-setenv.sh ${TOMCAT_HOME}/bin/setenv.sh
 
