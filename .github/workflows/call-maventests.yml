@@ -1,0 +1,30 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Build Maven Java
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: my-local-registery/eidas-demo-country-ca
+      DOCKLE_HOST: "unix:///var/run/docker.sock"
+    steps:
+      - name: Set imagetag as env variable
+        run: echo "IMAGETAG=$(date +'%Y-%m-%d-%H%M')-${GITHUB_SHA::8}" >> "$GITHUB_ENV"
+      - name: Build the tagged Docker image
+        run: docker build --tag ${{ env.IMAGE_NAME}}:${{env.IMAGETAG}} docker/CA.Dockerfile
+      - uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.IMAGE_NAME}}:${{env.IMAGETAG}}
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@d710430a6722f083d3b36b8339ff66b32f22ee55 # pin@v0.19.0
+        with:
+          image-ref: ${{ env.IMAGE_NAME}}:${{env.IMAGETAG}}
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+
