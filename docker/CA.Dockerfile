@@ -52,6 +52,9 @@ FROM tomcat:9.0-jre11-temurin-jammy
 
 ENV TOMCAT_HOME /usr/local/tomcat
 
+# Copy setenv.sh to /usr/local/tomcat/bin/
+COPY docker/demo-config/setenv.sh ${TOMCAT_HOME}/bin/
+
 # install bouncycastle
 COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
 COPY docker/bouncycastle/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1.78.jar
@@ -59,9 +62,6 @@ COPY docker/bouncycastle/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1
 # copy eidas-config
 RUN mkdir -p /usr/local/tomcat/eidas-config/
 COPY --from=builder /tmp/tomcat/ ${TOMCAT_HOME}/eidas-config/
-
-# Copy setenv.sh to /usr/local/tomcat/bin/
-COPY docker/demo-config/setenv.sh ${TOMCAT_HOME}/bin/
 
 # Add war files to webapps: /usr/local/tomcat/webapps
 COPY --from=builder /data/TOMCAT/*.war ${TOMCAT_HOME}/webapps/

@@ -58,21 +58,16 @@ ENV TOMCAT_HOME /usr/local/tomcat
 # change tomcat port
 RUN sed -i 's/port="8080"/port="8081"/' ${TOMCAT_HOME}/conf/server.xml
 
+# Copy setenv.sh to /usr/local/tomcat/bin/
+COPY docker/demo-config/setenv.sh ${TOMCAT_HOME}/bin/
+
 # install bouncycastle
-##  Add the Bouncy Castle provider jar to the $JAVA_HOME/jre/lib/ext directory
-## Create a Bouncy Castle provider entry in the $JAVA_HOME/jre/lib/security/java.security file with correct number N: security.provider.N=org.bouncycastle.jce.provider.BouncyCastleProvider
-# Copy customized java security properties file
 COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
-#COPY docker/bouncycastle/java.security /opt/java/openjdk/conf/security/java.security
 COPY docker/bouncycastle/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1.78.jar
 
 # copy eidas-config
 RUN mkdir -p ${TOMCAT_HOME}/eidas-config/
 COPY --from=builder /tmp/tomcat/ ${TOMCAT_HOME}/eidas-config/
-
-
-# Copy setenv.sh to /usr/local/tomcat/bin/
-COPY docker/demo-config/setenv.sh ${TOMCAT_HOME}/bin/
 
 # Add war files to webapps: /usr/local/tomcat/webapps
 COPY --from=builder /data/TOMCAT/*.war ${TOMCAT_HOME}/webapps/

@@ -17,6 +17,8 @@ ENV TOMCAT_HOME /usr/local/tomcat
 # change tomcat port
 RUN sed -i 's/port="8080"/port="8082"/' ${TOMCAT_HOME}/conf/server.xml
 
+COPY docker/proxy/tomcat-setenv.sh ${TOMCAT_HOME}/bin/setenv.sh
+
 RUN mkdir -p $TOMCAT_HOME/eidas-proxy-config/ && pwd
 COPY docker/proxy/config/ $TOMCAT_HOME/eidas-proxy-config
 
@@ -29,8 +31,6 @@ RUN sed -i 's/NO-EU-EIDAS-CONNECTOR-URL/http:\/\/eu-eidas-connector:8083/g' $TOM
 # Only for local development
 RUN sed -i 's/metadata.restrict.http">true/metadata.restrict.http">false/g' ${TOMCAT_HOME}/eidas-proxy-config/eidas.xml
 
-
-COPY docker/proxy/tomcat-setenv.sh ${TOMCAT_HOME}/bin/setenv.sh
 
 # Add war files to webapps: /usr/local/tomcat/webapps
 COPY --from=builder /data/eidasnode-pub/EIDAS-Node-Proxy/target/EidasNodeProxy.war ${TOMCAT_HOME}/webapps/

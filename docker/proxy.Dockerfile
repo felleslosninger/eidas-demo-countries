@@ -14,6 +14,8 @@ COPY docker/bouncycastle/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1
 
 ENV TOMCAT_HOME /usr/local/tomcat
 
+COPY docker/proxy/tomcat-setenv.sh ${TOMCAT_HOME}/bin/setenv.sh
+
 RUN mkdir -p $TOMCAT_HOME/eidas-proxy-config/
 COPY docker/proxy/config/ $TOMCAT_HOME/eidas-proxy-config
 
@@ -22,8 +24,6 @@ RUN sed -i 's/EU-PROXY-URL/https:\/\/eu-eidas-proxy.idporten.dev/g' $TOMCAT_HOME
 RUN sed -i 's/EIDAS-PROXY-URL/https:\/\/eidas-proxy.idporten.dev/g' $TOMCAT_HOME/eidas-proxy-config/eidas.xml
 RUN sed -i 's/DEMOLAND-CA-URL/https:\/\/eidas-demo-ca.idporten.dev/g' $TOMCAT_HOME/eidas-proxy-config/metadata/MetadataFetcher_Service.properties
 RUN sed -i 's/NO-EU-EIDAS-CONNECTOR-URL/https:\/\/eu-eidas-connector.idporten.dev/g' $TOMCAT_HOME/eidas-proxy-config/metadata/MetadataFetcher_Service.properties
-
-COPY docker/proxy/tomcat-setenv.sh ${TOMCAT_HOME}/bin/setenv.sh
 
 # Add war files to webapps: /usr/local/tomcat/webapps
 COPY --from=builder /data/eidasnode-pub/EIDAS-Node-Proxy/target/EidasNodeProxy.war ${TOMCAT_HOME}/webapps/
