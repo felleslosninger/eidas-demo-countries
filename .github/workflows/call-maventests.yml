@@ -16,6 +16,7 @@ jobs:
     steps:
       - name: Set imagetag as env variable
         run: echo "IMAGETAG=$(date +'%Y-%m-%d-%H%M')-${GITHUB_SHA::8}" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4
       - name: Build the tagged Docker image
         run: docker build --tag ${{ env.IMAGE_NAME}}:${{env.IMAGETAG}} docker/CA.Dockerfile
       - uses: anchore/sbom-action@v0
