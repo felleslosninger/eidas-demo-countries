@@ -53,26 +53,30 @@ COPY docker/demo-config/MetadataFetcher_Service.properties $config_path/proxy/me
 
 FROM tomcat:9.0-jre11-temurin-jammy
 
-ENV TOMCAT_HOME /usr/local/tomcat
+RUN groupadd --system --gid 1000 tomcat \
+    && adduser --system --uid 1000 --gid 1000 tomcat \
+    && chown -R tomcat $CATALINA_HOME
+
+USER tomcat
 
 # change tomcat port
-RUN sed -i 's/port="8080"/port="8081"/' ${TOMCAT_HOME}/conf/server.xml
+RUN sed -i 's/port="8080"/port="8081"/' ${CATALINA_HOME}/conf/server.xml
 
 # Copy setenv.sh to /usr/local/tomcat/bin/
-COPY docker/demo-config/setenv.sh ${TOMCAT_HOME}/bin/
+COPY docker/demo-config/setenv.sh ${CATALINA_HOME}/bin/
 
 # install bouncycastle
 COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
 COPY docker/bouncycastle/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1.78.jar
 
 # copy eidas-config
-RUN mkdir -p ${TOMCAT_HOME}/eidas-config/
-COPY --from=builder /tmp/tomcat/ ${TOMCAT_HOME}/eidas-config/
+RUN mkdir -p ${CATALINA_HOME}/eidas-config/
+COPY --from=builder /tmp/tomcat/ ${CATALINA_HOME}/eidas-config/
 
 # Add war files to webapps: /usr/local/tomcat/webapps
-COPY --from=builder /data/TOMCAT/*.war ${TOMCAT_HOME}/webapps/
+COPY --from=builder /data/TOMCAT/*.war ${CATALINA_HOME}/webapps/
 
 # eIDAS audit log folder
-RUN mkdir -p ${TOMCAT_HOME}/eidas/logs
+RUN mkdir -p ${CATALINA_HOME}/eidas/logs
 
 EXPOSE 8081
