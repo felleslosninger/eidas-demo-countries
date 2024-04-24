@@ -53,12 +53,6 @@ COPY docker/demo-config/MetadataFetcher_Service.properties $config_path/proxy/me
 
 FROM tomcat:9.0-jre11-temurin-jammy
 
-RUN groupadd --system --gid 1000 tomcat \
-    && adduser --system --uid 1000 --gid 1000 tomcat \
-    && chown -R tomcat $CATALINA_HOME
-
-USER tomcat
-
 # change tomcat port
 RUN sed -i 's/port="8080"/port="8081"/' ${CATALINA_HOME}/conf/server.xml
 
@@ -77,6 +71,6 @@ COPY --from=builder /tmp/tomcat/ ${CATALINA_HOME}/eidas-config/
 COPY --from=builder /data/TOMCAT/*.war ${CATALINA_HOME}/webapps/
 
 # eIDAS audit log folder
-RUN mkdir -p ${CATALINA_HOME}/eidas/logs
+RUN mkdir -p ${CATALINA_HOME}/eidas/logs && chmod 744 ${CATALINA_HOME}/eidas/logs
 
 EXPOSE 8081
