@@ -5,7 +5,7 @@ eIDAS-node-proxy and eIDAS-node-connector for Norway included complete demo-coun
 See these documents in https://ec.europa.eu/digital-building-blocks/sites/display/DIGITAL/eIDAS-Node+version+2.7.1:
 * eIDAS-Node Installation Quick Start Guide v2.7.pdf
 * eIDAS-Node Installation and Configuration Guide v2.7.1.pdf
-* eIDAS-Node Installation Quick Start Guide v2.7.pdf
+* eIDAS-Node Demo Tools Installation and Configuration Guide v2.7.pdf
 
 ## Norwegian eIDAS-proxy node (eu-eidas-proxy)
 ### Run eu-eidas-proxy as docker-compose on your machine for local testing
