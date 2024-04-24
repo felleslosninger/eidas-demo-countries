@@ -1,4 +1,14 @@
 #
+CVE-2023-6378 # logback-classic fixed in 1.3.12, 1.4.12, 1.2.13
+CVE-2016-1000031 # commons-fileupload fixed in 1.3.3
+CVE-2023-24998  # commons-fileupload fixed in 1.5
+CVE-2019-0230   # org.apache.struts:struts2-core fixed in 2.5.22
+CVE-2020-17530  # org.apache.struts:struts2-core fixed in 2.5.26
+CVE-2021-31805  # org.apache.struts:struts2-core fixed in 2.5.30
+CVE-2023-50164  # org.apache.struts:struts2-core fixed in 2.5.33, 6.3.0.2
+CVE-2012-1592   # org.apache.struts:struts2-core fixed in 2.5.22
+CVE-2018-11776  # org.apache.struts:struts2-core fixed in  2.3.35, 2.5.17
+CVE-2019-0233   # org.apache.struts:struts2-core fixed in  2.5.22
 CVE-2023-34396  # org.apache.struts:struts2-core fixed in 2.5.31, 6.1.2.1
 CVE-2023-41835  # org.apache.struts:struts2-core fixed in 6.3.0.1, 6.1.2.2, 2.5.32
 CVE-2022-22965 # spring-beans fixed in 5.3.18
