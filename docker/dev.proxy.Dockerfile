@@ -1,4 +1,4 @@
-FROM maven:3.9-eclipse-temurin-11 as builder
+FROM maven:3-eclipse-temurin-22 as builder
 
 WORKDIR /data
 
