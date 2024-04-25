@@ -51,7 +51,7 @@ RUN sed -i 's/service6.metadata.url">http:\/\/localhost:9080/service6.metadata.u
 COPY docker/demo-config/MetadataFetcher_Connector.properties $config_path/connector/metadata/MetadataFetcher_Connector.properties
 COPY docker/demo-config/MetadataFetcher_Service.properties $config_path/proxy/metadata/MetadataFetcher_Service.properties
 
-FROM tomcat:9.0-jre11-temurin-jammy
+FROM tomcat:10.1-jre11-temurin-jammy
 
 # change tomcat port
 RUN sed -i 's/port="8080"/port="8081"/' ${CATALINA_HOME}/conf/server.xml
