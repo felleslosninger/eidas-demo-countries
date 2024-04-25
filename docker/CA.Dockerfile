@@ -15,10 +15,10 @@ RUN curl ${EIDAS_NODE_URL} -o eIDAS-node-dl.zip
 RUN unzip eIDAS-node-dl.zip && \
     unzip EIDAS-Binaries-Tomcat-*.zip
 
+
 # unzip and add config
 RUN unzip /data/TOMCAT/config.zip -d /tmp/
 ENV config_path=/tmp/tomcat
-RUN cd $config_path
 
 # Replace Demo-country CA localhost URLs with eidas-demo-ca.idporten.dev (for systest for now)
 RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeConnector/https:\/\/eidas-demo-ca.idporten.dev\/EidasNodeConnector/g' $config_path/connector/eidas.xml
@@ -50,12 +50,6 @@ COPY docker/demo-config/MetadataFetcher_Service.properties $config_path/proxy/me
 
 FROM tomcat:9.0-jre11-temurin-jammy
 
-RUN groupadd --system --gid 1000 tomcat \
-    && adduser --system --uid 1000 --gid 1000 tomcat \
-    && chown -R tomcat $CATALINA_HOME
-
-USER tomcat
-
 # Copy setenv.sh to /usr/local/tomcat/bin/
 COPY docker/demo-config/setenv.sh ${CATALINA_HOME}/bin/
 
@@ -69,10 +63,13 @@ COPY --from=builder /tmp/tomcat/ ${CATALINA_HOME}/eidas-config/
 
 # Add war files to webapps: /usr/local/tomcat/webapps
 COPY --from=builder /data/TOMCAT/*.war ${CATALINA_HOME}/webapps/
+RUN chmod -R 770 ${CATALINA_HOME}/webapps
 
+# Add Cache Ignite work folder
+RUN mkdir -p ${CATALINA_HOME}/ignite && chgrp -R 0 ${CATALINA_HOME}/ignite && chmod 770 ${CATALINA_HOME}/ignite
 
 # eIDAS audit log folder
-RUN mkdir -p ${CATALINA_HOME}/eidas/logs
+RUN mkdir -p ${CATALINA_HOME}/eidas/logs && chmod 774 ${CATALINA_HOME}/eidas/logs
 
 EXPOSE 8080
 
