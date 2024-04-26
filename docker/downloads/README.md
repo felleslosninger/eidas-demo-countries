@@ -1,0 +1,1 @@
+Empty download folder only for pipeline
