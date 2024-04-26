@@ -12,10 +12,10 @@ ARG EIDAS_NODE_VERSION=2.7.1
 #RUN mkdir -p /data/eidas-downloads
 #RUN curl ${EIDAS_NODE_URL} -C - -o /data/eidas-download/eIDAS-node-dl-${EIDAS_NODE_VERSION}.zip
 
-COPY docker/downloads/eIDAS-node-dl-${EIDAS_NODE_VERSION}.zip /data/
+COPY docker/downloads/eIDAS-node-dl-${EIDAS_NODE_VERSION}.zip /data/eIDAS-node-dl.zip
 
 # Unzip eIDAS-Node Software
-RUN unzip /data/eidas-download/eIDAS-node-dl-${EIDAS_NODE_VERSION}.zip -d /data && \
+RUN unzip /data/eidas-download/eIDAS-node-dl.zip -d /data && \
     unzip EIDAS-Binaries-Tomcat-*.zip
 
 

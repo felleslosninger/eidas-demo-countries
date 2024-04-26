@@ -14,7 +14,8 @@ jobs:
     steps:
       - name: Set imagetag as env variable
         run: echo "IMAGETAG=$(date +'%Y-%m-%d-%H%M')-${GITHUB_SHA::8}" >> "$GITHUB_ENV"
-      - uses: actions/checkout@v4
+      - name: Git checkout repo
+        uses: actions/checkout@v4
       - name: Cache Zip
         id: cache-zip
         uses: actions/cache@v4
@@ -25,6 +26,8 @@ jobs:
       - name: Download eIDAS zip file
         if: steps.cache-zip.outputs.cache-hit != 'true'
         run: curl https://ec.europa.eu/digital-building-blocks/artifact/repository/eid/eu/eIDAS-node/${{env.EIDAS_NODE_VERSION}}/eIDAS-node-${{env.EIDAS_NODE_VERSION}}.zip -C - -o docker/downloads/eIDAS-node-dl-${{env.EIDAS_NODE_VERSION}}.zip
+      - name: debug print
+        run: ls -lt docker/downloads
       - name: Build the tagged Docker image
         run: docker build --tag ${{ env.IMAGE_NAME}}:${{env.IMAGETAG}} --file docker/CA.Dockerfile .
       - uses: anchore/sbom-action@v0
