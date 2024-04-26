@@ -24,7 +24,12 @@ jobs:
         run: echo "IMAGETAG=$(date +'%Y-%m-%d-%H%M')-${GITHUB_SHA::8}" >> "$GITHUB_ENV"
 
       - uses: actions/checkout@v4
-
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: /data/eidas-download
+          key: ${{ runner.os }}-eidas-${{ hashFiles('**/*.zip') }}
+          restore-keys: ${{ runner.os }}-eidas
       - name: Build the tagged Docker image
         run: docker build --tag ${{env.IMAGE_NAME}}:${{env.IMAGETAG}} --file docker/CA.Dockerfile .
 
