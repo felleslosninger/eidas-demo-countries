@@ -84,7 +84,7 @@ autonumber
     participant C2ID as Connect2id
     end
     box lightpink idporten-eidas
-        participant EL as eidas-login
+        participant EC as eidas-connector
         participant NEC as eu-eidas-connector
 
         participant FRGW as F-REG gateway
@@ -95,19 +95,19 @@ autonumber
 
     User->>SP: Request Access
     SP->>IL: OIDC (acr: eidas-loa-x)
-    IL->>EL: OIDC
+    IL->>EC: OIDC
     rect lightblue
-    EL->>FRGW: Hent persondata
+    EC->>FRGW: Hent persondata
     FRGW->>FR: Hent persondata
     end
-    EL->>EL: map to LightProtocol request
-    EL->>NEC: LightProtocol request
+    EC->>EC: map to LightProtocol request
+    EC->>NEC: LightProtocol request
     NEC->>UPS: SAML2
     UPS->>IDP: autentiser
     IDP-->> UPS: LightProtocol response
     UPS-->>NEC: SAML2
-    NEC-->>EL: LightProtocol response
-    EL-->>IL: token response
+    NEC-->>EC: LightProtocol response
+    EC-->>IL: token response
     Note over IL,C2ID: sesjonshåndering
     IL-->>SP: Access Granted
     SP->>User: Access Granted
