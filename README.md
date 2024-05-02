@@ -36,6 +36,7 @@ E.g as listed in eidas-config/sp/sp.properties inside the docker container.
 TODO
 
 # Sequence diagrams
+The background colors indicates namespace in the Cluster, red is eidas-namespace.
 ## Norwegian citizen
 ```mermaid  
 sequenceDiagram
