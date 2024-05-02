@@ -44,8 +44,8 @@ autonumber
     participant SP as Utenlandsk tjeneste
     participant UEC as Utenlandsk eIDAS Connector
     box lightpink idporten-eidas
-    participant NEP as eu-eidas-proxy
-    participant SEP as eidas-proxy
+    participant NEP as proxy
+    participant SEP as proxy-no
     end
     box lightyellow ID-porten
     participant IL as idporten-login
@@ -84,8 +84,8 @@ autonumber
     participant C2ID as Connect2id
     end
     box lightpink idporten-eidas
-        participant EC as eidas-connector
-        participant NEC as eu-eidas-connector
+        participant EC as connector-no
+        participant NEC as connector
 
         participant FRGW as F-REG gateway
     end
