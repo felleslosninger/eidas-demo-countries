@@ -18,7 +18,7 @@ Add the following to your /etc/hosts file:
 ```
 Start docker containers:
 ```
-docker-compose -f docker-compose-demo-countries.yaml up --build
+docker-compose up --build
 ```
 This will run two docker services each with a tomcat instance with all the six EU-war files deployed for running demo country.
 
