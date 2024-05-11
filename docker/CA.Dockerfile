@@ -6,13 +6,16 @@ RUN apk add --no-cache zip unzip curl
 WORKDIR /data
 
 ARG EIDAS_NODE_VERSION=2.7.1
-ARG EIDAS_NODE_URL=https://ec.europa.eu/digital-building-blocks/artifact/repository/eid/eu/eIDAS-node/${EIDAS_NODE_VERSION}/eIDAS-node-${EIDAS_NODE_VERSION}.zip
+#ARG EIDAS_NODE_URL=https://ec.europa.eu/digital-building-blocks/artifact/repository/eid/eu/eIDAS-node/${EIDAS_NODE_VERSION}/eIDAS-node-${EIDAS_NODE_VERSION}.zip
 
 # Download eIDAS-Node Software
-RUN curl ${EIDAS_NODE_URL} -o eIDAS-node-dl.zip
+#RUN mkdir -p /data/eidas-downloads
+#RUN curl ${EIDAS_NODE_URL} -C - -o /data/eidas-download/eIDAS-node-dl-${EIDAS_NODE_VERSION}.zip
+
+COPY docker/downloads/eIDAS-node-dl-${EIDAS_NODE_VERSION}.zip /data/eIDAS-node-dl.zip
 
 # Unzip eIDAS-Node Software
-RUN unzip eIDAS-node-dl.zip && \
+RUN unzip /data/eidas-download/eIDAS-node-dl.zip -d /data && \
     unzip EIDAS-Binaries-Tomcat-*.zip
 
 
