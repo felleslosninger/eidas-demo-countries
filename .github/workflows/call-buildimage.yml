@@ -16,7 +16,7 @@ jobs:
     with:
       image-name: eidas-demo-country-ca
       application-type: docker
-      application-path: ./docker/
+      application-path: ./docker
     secrets: inherit
 
   call-update-image:
