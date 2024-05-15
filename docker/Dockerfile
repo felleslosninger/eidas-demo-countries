@@ -33,7 +33,7 @@ RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeProxy\/ServiceMetadata/https:\/\
 
 # Add Norway (NO) as country 6
 RUN sed -i 's/country6.name=CF/country6.name=NO/g' $config_path/sp/sp.properties
-RUN sed -i 's/country6.url=http:\/\/localhost:9080\/EidasNodeConnector/country6.url=https:\/\/eu-eidas-connector.idporten.dev/g' $config_path/sp/sp.properties
+RUN sed -i 's/country6.url=http:\/\/localhost:9080\/EidasNodeConnector/country6.url=https:\/\/eidas-connector.idporten.dev/g' $config_path/sp/sp.properties
 
 RUN sed -i 's/service6.id">CF/service6.id">NO/g' $config_path/connector/eidas.xml
 RUN sed -i 's/service6.name">LOCAL-EIDAS-CF/service6.name">EIDAS-NO/g' $config_path/connector/eidas.xml

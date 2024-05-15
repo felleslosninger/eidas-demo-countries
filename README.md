@@ -1,4 +1,4 @@
-# eidas-node
+# eidas-demo-countries
 
 eIDAS-node demo-countries CA and CB with applications: proxy/connector/demo-sp/demo-idp for testing purposes.
 
@@ -44,8 +44,8 @@ autonumber
     participant SP as Utenlandsk tjeneste
     participant UEC as Utenlandsk eIDAS Connector
     box lightpink idporten-eidas
-    participant NEP as eu-eidas-proxy
-    participant SEP as eidas-proxy
+    participant NEP as eidas-proxy
+    participant SEP as eidas-idporten-proxy
     end
     box lightyellow ID-porten
     participant IL as idporten-login
@@ -84,8 +84,8 @@ autonumber
     participant C2ID as Connect2id
     end
     box lightpink idporten-eidas
-        participant EL as eidas-login
-        participant NEC as eu-eidas-connector
+        participant EL as eidas-idporten-connector
+        participant NEC as eidas-connector
 
         participant FRGW as F-REG gateway
     end

@@ -1,0 +1,15 @@
+name: Run PR checks
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, edited]
+
+jobs:
+  call-workflow-maven-build:
+    uses: felleslosninger/github-workflows/.github/workflows/ci-pr-checks.yml@main
+    with:
+      pull-request-title: ${{ github.event.pull_request.title }}
+      pull-request-allowed-prefixes: "Bump,ID-,MIN-,MP-,KRR-,PF-,AOS-,SP-,EIN-"
+    secrets: inherit
+
