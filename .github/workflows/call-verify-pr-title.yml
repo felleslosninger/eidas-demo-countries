@@ -6,7 +6,7 @@ on:
     types: [opened, edited]
 
 jobs:
-  call-workflow-maven-build:
+  call-pr-checks:
     uses: felleslosninger/github-workflows/.github/workflows/ci-pr-checks.yml@main
     with:
       pull-request-title: ${{ github.event.pull_request.title }}
