@@ -36,6 +36,7 @@ E.g as listed in eidas-config/sp/sp.properties inside the docker container.
 TODO
 
 # Sequence diagrams
+The background colors indicates namespace in the Cluster, red is eidas-namespace.
 ## Norwegian citizen
 ```mermaid  
 sequenceDiagram
@@ -77,16 +78,15 @@ autonumber
 ```mermaid  
 sequenceDiagram
 autonumber
-    actor User as Utenlandsk bruker (Nettle)
-    participant SP as Norsk tjeneste
+    actor User as Foreign user (browser)
+    participant SP as Norwegian service
     box lightyellow ID-porten
     participant IL as idporten-login
     participant C2ID as Connect2id
     end
     box lightpink idporten-eidas
-        participant EL as eidas-idporten-connector
+        participant EC as eidas-idporten-connector
         participant NEC as eidas-connector
-
         participant FRGW as F-REG gateway
     end
     participant FR as Folkeregisteret
@@ -95,20 +95,21 @@ autonumber
 
     User->>SP: Request Access
     SP->>IL: OIDC (acr: eidas-loa-x)
-    IL->>EL: OIDC
-    rect lightblue
-    EL->>FRGW: Hent persondata
-    FRGW->>FR: Hent persondata
-    end
-    EL->>EL: map to LightProtocol request
-    EL->>NEC: LightProtocol request
+    IL->>EC: OIDC
+
+    EC->>EC: map to LightProtocol request
+    EC->>NEC: LightProtocol request
     NEC->>UPS: SAML2
-    UPS->>IDP: autentiser
+    UPS->>IDP: authenticate
     IDP-->> UPS: LightProtocol response
     UPS-->>NEC: SAML2
-    NEC-->>EL: LightProtocol response
-    EL-->>IL: token response
-    Note over IL,C2ID: sesjonshåndering
+    NEC-->>EC: LightProtocol response
+    rect lightblue
+        EC->>FRGW: match identity
+        FRGW->>FR: match identity
+    end
+    EC-->>IL: token response
+    Note over IL,C2ID: session handling
     IL-->>SP: Access Granted
     SP->>User: Access Granted
 ```    
