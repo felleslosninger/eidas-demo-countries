@@ -78,8 +78,8 @@ autonumber
 ```mermaid  
 sequenceDiagram
 autonumber
-    actor User as Utenlandsk bruker (Nettle)
-    participant SP as Norsk tjeneste
+    actor User as Foreign user (browser)
+    participant SP as Norwegian service
     box lightyellow ID-porten
     participant IL as idporten-login
     participant C2ID as Connect2id
@@ -100,7 +100,7 @@ autonumber
     EC->>EC: map to LightProtocol request
     EC->>NEC: LightProtocol request
     NEC->>UPS: SAML2
-    UPS->>IDP: autentiser
+    UPS->>IDP: authenticate
     IDP-->> UPS: LightProtocol response
     UPS-->>NEC: SAML2
     NEC-->>EC: LightProtocol response
@@ -109,7 +109,7 @@ autonumber
         FRGW->>FR: match identity
     end
     EC-->>IL: token response
-    Note over IL,C2ID: sesjonshåndering
+    Note over IL,C2ID: session handling
     IL-->>SP: Access Granted
     SP->>User: Access Granted
 ```    
