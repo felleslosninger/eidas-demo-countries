@@ -39,11 +39,11 @@ RUN sed -i 's/localhost:8080\/EidasNodeProxy\/ServiceMetadata/eidas-demo-cb:8081
 
 # Add Norway (NO) as country 6
 RUN sed -i 's/country6.name=CF/country6.name=NO/g' $config_path/sp/sp.properties
-RUN sed -i 's/country6.url=http:\/\/localhost:9080/country6.url=http:\/\/eu-eidas-connector:8083/g' $config_path/sp/sp.properties
+RUN sed -i 's/country6.url=http:\/\/localhost:9080/country6.url=http:\/\/eidas-connector:8083/g' $config_path/sp/sp.properties
 
 RUN sed -i 's/service6.id">CF/service6.id">NO/g' $config_path/connector/eidas.xml
 RUN sed -i 's/service6.name">LOCAL-EIDAS-CF/service6.name">LOCAL-EIDAS-NO/g' $config_path/connector/eidas.xml
-RUN sed -i 's/service6.metadata.url">http:\/\/localhost:9080/service6.metadata.url">http:\/\/eu-eidas-proxy:8082/g' $config_path/connector/eidas.xml
+RUN sed -i 's/service6.metadata.url">http:\/\/localhost:9080\/EidasNodeProxy/service6.metadata.url">http:\/\/eidas-proxy:8082/g' $config_path/connector/eidas.xml
 
 #Metadata with-listing
 COPY docker/demo-config/MetadataFetcher_Connector.properties $config_path/connector/metadata/MetadataFetcher_Connector.properties

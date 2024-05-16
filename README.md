@@ -1,4 +1,4 @@
-# eidas-node
+# eidas-demo-countries
 
 eIDAS-node demo-countries CA and CB with applications: proxy/connector/demo-sp/demo-idp for testing purposes.
 
@@ -18,7 +18,7 @@ Add the following to your /etc/hosts file:
 ```
 Start docker containers:
 ```
-docker-compose -f docker-compose-demo-countries.yaml up --build
+docker-compose up --build
 ```
 This will run two docker services each with a tomcat instance with all the six EU-war files deployed for running demo country.
 
@@ -45,8 +45,8 @@ autonumber
     participant SP as Utenlandsk tjeneste
     participant UEC as Utenlandsk eIDAS Connector
     box lightpink idporten-eidas
-    participant NEP as proxy
-    participant SEP as proxy-no
+    participant NEP as eidas-proxy
+    participant SEP as eidas-idporten-proxy
     end
     box lightyellow ID-porten
     participant IL as idporten-login
@@ -85,9 +85,8 @@ autonumber
     participant C2ID as Connect2id
     end
     box lightpink idporten-eidas
-        participant EC as connector-no
-        participant NEC as connector
-
+        participant EL as eidas-idporten-connector
+        participant NEC as eidas-connector
         participant FRGW as F-REG gateway
     end
     participant FR as Folkeregisteret
