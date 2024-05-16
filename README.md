@@ -105,8 +105,8 @@ autonumber
     UPS-->>NEC: SAML2
     NEC-->>EC: LightProtocol response
     rect lightblue
-        EC->>FRGW: Hent persondata
-        FRGW->>FR: Hent persondata
+        EC->>FRGW: match identity
+        FRGW->>FR: match identity
     end
     EC-->>IL: token response
     Note over IL,C2ID: sesjonshåndering
