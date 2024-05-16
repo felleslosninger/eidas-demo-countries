@@ -96,10 +96,6 @@ autonumber
     User->>SP: Request Access
     SP->>IL: OIDC (acr: eidas-loa-x)
     IL->>EL: OIDC
-    rect lightblue
-    EL->>FRGW: Hent persondata
-    FRGW->>FR: Hent persondata
-    end
     EL->>EL: map to LightProtocol request
     EL->>NEC: LightProtocol request
     NEC->>UPS: SAML2
@@ -107,6 +103,10 @@ autonumber
     IDP-->> UPS: LightProtocol response
     UPS-->>NEC: SAML2
     NEC-->>EL: LightProtocol response
+    rect lightblue
+        EL->>FRGW: Hent persondata
+        FRGW->>FR: Hent persondata
+    end
     EL-->>IL: token response
     Note over IL,C2ID: sesjonshåndering
     IL-->>SP: Access Granted
