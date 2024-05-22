@@ -21,23 +21,23 @@ RUN unzip /data/TOMCAT/config.zip -d /tmp/
 ENV config_path=/tmp/tomcat
 
 # Replace Demo-country CA localhost URLs with eidas-demo-ca.idporten.dev (for systest for now)
-RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeConnector/https:\/\/eidas-demo-ca.idporten.dev\/EidasNodeConnector/g' $config_path/connector/eidas.xml
-RUN sed -i 's/http:\/\/localhost:8080\/SpecificConnector/https:\/\/eidas-demo-ca.idporten.dev\/SpecificConnector/g' $config_path/connector/eidas.xml
-RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.idporten.dev/g' $config_path/proxy/eidas.xml
-RUN sed -i 's/http:\/\/localhost:8080\/SP/https:\/\/eidas-demo-ca.idporten.dev\/SP/g' $config_path/sp/sp.properties
-RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.idporten.dev/g' $config_path/specificConnector/specificConnector.xml
-RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.idporten.dev/g' $config_path/specificProxyService/specificProxyService.xml
+RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeConnector/https:\/\/eidas-demo-ca.eidasnode.dev\/EidasNodeConnector/g' $config_path/connector/eidas.xml
+RUN sed -i 's/http:\/\/localhost:8080\/SpecificConnector/https:\/\/eidas-demo-ca.eidasnode.dev\/SpecificConnector/g' $config_path/connector/eidas.xml
+RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.eidasnode.dev/g' $config_path/proxy/eidas.xml
+RUN sed -i 's/http:\/\/localhost:8080\/SP/https:\/\/eidas-demo-ca.eidasnode.dev\/SP/g' $config_path/sp/sp.properties
+RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.eidasnode.dev/g' $config_path/specificConnector/specificConnector.xml
+RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.eidasnode.dev/g' $config_path/specificProxyService/specificProxyService.xml
 
-RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeConnector\/ServiceProvider/https:\/\/eidas-demo-ca.idporten.dev\/EidasNodeConnector\/ServiceProvider/g' $config_path/sp/sp.properties
-RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeProxy\/ServiceMetadata/https:\/\/eidas-demo-ca.idporten.dev\/EidasNodeProxy\/ServiceMetadata/g' $config_path/connector/eidas.xml
+RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeConnector\/ServiceProvider/https:\/\/eidas-demo-ca.eidasnode.dev\/EidasNodeConnector\/ServiceProvider/g' $config_path/sp/sp.properties
+RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeProxy\/ServiceMetadata/https:\/\/eidas-demo-ca.eidasnode.dev\/EidasNodeProxy\/ServiceMetadata/g' $config_path/connector/eidas.xml
 
 # Add Norway (NO) as country 6
 RUN sed -i 's/country6.name=CF/country6.name=NO/g' $config_path/sp/sp.properties
-RUN sed -i 's/country6.url=http:\/\/localhost:9080\/EidasNodeConnector/country6.url=https:\/\/eidas-connector.idporten.dev/g' $config_path/sp/sp.properties
+RUN sed -i 's/country6.url=http:\/\/localhost:9080\/EidasNodeConnector/country6.url=https:\/\/eidas-connector.eidasnode.dev/g' $config_path/sp/sp.properties
 
 RUN sed -i 's/service6.id">CF/service6.id">NO/g' $config_path/connector/eidas.xml
 RUN sed -i 's/service6.name">LOCAL-EIDAS-CF/service6.name">EIDAS-NO/g' $config_path/connector/eidas.xml
-RUN sed -i 's/service6.metadata.url">http:\/\/localhost:9080\/EidasNodeProxy/service6.metadata.url">https:\/\/eu-eidas-proxy.idporten.dev/g' $config_path/connector/eidas.xml
+RUN sed -i 's/service6.metadata.url">http:\/\/localhost:9080\/EidasNodeProxy/service6.metadata.url">https:\/\/eu-eidas-proxy.eidasnode.dev/g' $config_path/connector/eidas.xml
 
 
 # Only allow https in proxy and connector
