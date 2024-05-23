@@ -27,6 +27,10 @@ RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.eidasnode.dev/g' $
 RUN sed -i 's/http:\/\/localhost:8080\/SP/https:\/\/eidas-demo-ca.eidasnode.dev\/SP/g' $config_path/sp/sp.properties
 RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.eidasnode.dev/g' $config_path/specificConnector/specificConnector.xml
 RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.eidasnode.dev/g' $config_path/specificProxyService/specificProxyService.xml
+RUN sed -i '/<\/properties/i \
+     <entry key="disallow.self.signed.certificate">false</entry> ' $config_path/connector/eidas.xml
+RUN sed -i '/<\/properties/i \
+     <entry key="disallow.self.signed.certificate">false</entry> ' $config_path/proxy/eidas.xml
 
 RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeConnector\/ServiceProvider/https:\/\/eidas-demo-ca.eidasnode.dev\/EidasNodeConnector\/ServiceProvider/g' $config_path/sp/sp.properties
 RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeProxy\/ServiceMetadata/https:\/\/eidas-demo-ca.eidasnode.dev\/EidasNodeProxy\/ServiceMetadata/g' $config_path/connector/eidas.xml
@@ -47,6 +51,9 @@ RUN sed -i 's/metadata.restrict.http">false/metadata.restrict.http">true/g' $con
 # White-lists for connector and proxy
 COPY docker/demo-config/MetadataFetcher_Connector.properties $config_path/connector/metadata/MetadataFetcher_Connector.properties
 COPY docker/demo-config/MetadataFetcher_Service.properties $config_path/proxy/metadata/MetadataFetcher_Service.properties
+
+# copy keystore with trusted norwegian certificate
+COPY docker/demo-config/connector-eidasKeyStore.p12 $config_path/connector/keystore/eidasKeyStore.p12
 
 FROM tomcat:9.0-jre11-temurin-jammy
 
