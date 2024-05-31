@@ -57,6 +57,8 @@ COPY docker/demo-config/connector-eidasKeyStore.p12 $config_path/connector/keyst
 
 FROM tomcat:9.0-jre11-temurin-jammy
 
+RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/' ${CATALINA_HOME}/conf/server.xml
+
 # Copy setenv.sh to /usr/local/tomcat/bin/
 COPY docker/demo-config/setenv.sh ${CATALINA_HOME}/bin/
 
