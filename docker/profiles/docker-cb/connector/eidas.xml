@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2023 by European Commission
+  ~
+  ~ Licensed under the EUPL, Version 1.2 or - as soon they will be
+  ~ approved by the European Commission - subsequent versions of the
+  ~ EUPL (the "Licence");
+  ~ You may not use this work except in compliance with the Licence.
+  ~ You may obtain a copy of the Licence at:
+  ~ https://joinup.ec.europa.eu/page/eupl-text-11-12
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the Licence is distributed on an "AS IS" basis,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+  ~ implied.
+  ~ See the Licence for the specific language governing permissions and
+  ~ limitations under the Licence.
+  -->
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <!-- Connector  -->
+    <!-- Connector assertion URL -->
+    <entry key="connector.assertion.url">http://eidas-demo-cb:8081/EidasNodeConnector/ColleagueResponse</entry>
+
+    <!--connector Metadata -->
+    <entry key="connector.metadata.url">http://eidas-demo-cb:8081/EidasNodeConnector/ConnectorMetadata</entry>
+
+    <!-- METADATA configuration -->
+    <!-- Connector contact -->
+    <entry key="connector.contact.support.email">contact.support@eidas-connector.eu</entry>
+    <entry key="connector.contact.support.company">eIDAS Connector Operator</entry>
+    <entry key="connector.contact.support.givenname">John</entry>
+    <entry key="connector.contact.support.surname">Doe</entry>
+    <entry key="connector.contact.support.phone">+40 123456</entry>
+    <entry key="connector.contact.technical.email">contact.technical@eidas-connector.eu</entry>
+    <entry key="connector.contact.technical.company">eIDAS Connector Operator</entry>
+    <entry key="connector.contact.technical.givenname">John</entry>
+    <entry key="connector.contact.technical.surname">Doe</entry>
+    <entry key="connector.contact.technical.phone">+41 123456</entry>
+    <!-- Connector organization -->
+    <entry key="connector.organization.name">Sample Country Connector</entry>
+    <entry key="connector.organization.displayname">Connector</entry>
+    <entry key="connector.organization.url">https://connector.sample/info</entry>
+
+    <!-- Number of known Proxy-Service -->
+    <entry key="service.number">6</entry>
+
+    <!-- Proxy-Service CA-->
+    <entry key="service1.id">CA</entry>
+    <entry key="service1.name">LOCAL-EIDAS-CA</entry>
+    <entry key="service1.skew.notbefore">0</entry>
+    <entry key="service1.skew.notonorafter">0</entry>
+    <entry key="service1.metadata.url">http://eidas-demo-ca:8080/EidasNodeProxy/ServiceMetadata</entry>
+
+    <!-- Proxy-Service CB-->
+    <entry key="service2.id">CB</entry>
+    <entry key="service2.name">LOCAL-EIDAS-CB</entry>
+    <entry key="service2.skew.notbefore">0</entry>
+    <entry key="service2.skew.notonorafter">0</entry>
+    <entry key="service2.metadata.url">http://eidas-demo-cb:8081/EidasNodeProxy/ServiceMetadata</entry>
+
+    <!-- Proxy-Service CC-->
+    <entry key="service3.id">CC</entry>
+    <entry key="service3.name">LOCAL-EIDAS-CC</entry>
+    <entry key="service3.skew.notbefore">0</entry>
+    <entry key="service3.skew.notonorafter">0</entry>
+    <entry key="service3.metadata.url">http://localhost:8085/EidasNodeProxy/ServiceMetadata</entry>
+
+    <!-- Proxy-Service CD-->
+    <entry key="service4.id">CD</entry>
+    <entry key="service4.name">LOCAL-EIDAS-CD</entry>
+    <entry key="service4.skew.notbefore">0</entry>
+    <entry key="service4.skew.notonorafter">0</entry>
+    <entry key="service4.metadata.url">http://localhost:7001/EidasNodeProxy/ServiceMetadata</entry>
+
+    <!-- Proxy-Service CE-->
+    <entry key="service5.id">CE</entry>
+    <entry key="service5.name">LOCAL-EIDAS-CE</entry>
+    <entry key="service5.skew.notbefore">0</entry>
+    <entry key="service5.skew.notonorafter">0</entry>
+    <entry key="service5.metadata.url">http://localhost/EidasNodeProxy/ServiceMetadata</entry>
+
+    <!-- Proxy-Service CF-->
+    <entry key="service6.id">NO</entry>
+    <entry key="service6.name">LOCAL-EIDAS-NO</entry>
+    <entry key="service6.skew.notbefore">0</entry>
+    <entry key="service6.skew.notonorafter">0</entry>
+    <entry key="service6.metadata.url">http://eidas-proxy:8082/ServiceMetadata</entry>
+
+    <!-- SECURITY POLICY -->
+    <!-- uri used for the CSP reporting feature-->
+    <entry key="security.header.CSP.report.uri">http://eidas-demo-cb:8081/EidasNodeConnector/cspReportHandler</entry>
+
+    <!-- value of the NodeCountry to be published in the metadata-->
+    <entry key="metadata.node.country">CB</entry>
+
+    <!--Restrictmetadataretrievaltohttps-->
+    <entry key="metadata.restrict.http">false</entry>
+    <!--URL for specific-connector response receiver -->
+    <entry key="specific.connector.response.receiver">http://eidas-demo-cb:8081/SpecificConnector/ConnectorResponse</entry>
+
+</properties>

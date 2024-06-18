@@ -20,55 +20,39 @@ RUN unzip eIDAS-node-dl.zip && \
 RUN unzip /data/TOMCAT/config.zip -d /tmp/
 ENV config_path=/tmp/tomcat
 
-# Replace Demo-country CA localhost URLs with eidas-demo-ca.idporten.dev (for systest for now)
-RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeConnector/https:\/\/eidas-demo-ca.eidasnode.dev\/EidasNodeConnector/g' $config_path/connector/eidas.xml
-RUN sed -i 's/http:\/\/localhost:8080\/SpecificConnector/https:\/\/eidas-demo-ca.eidasnode.dev\/SpecificConnector/g' $config_path/connector/eidas.xml
-RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.eidasnode.dev/g' $config_path/proxy/eidas.xml
-RUN sed -i 's/http:\/\/localhost:8080\/SP/https:\/\/eidas-demo-ca.eidasnode.dev\/SP/g' $config_path/sp/sp.properties
-RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.eidasnode.dev/g' $config_path/specificConnector/specificConnector.xml
-RUN sed -i 's/http:\/\/localhost:8080/https:\/\/eidas-demo-ca.eidasnode.dev/g' $config_path/specificProxyService/specificProxyService.xml
-RUN sed -i '/<\/properties/i \
-     <entry key="disallow.self.signed.certificate">false</entry> ' $config_path/connector/eidas.xml
-RUN sed -i '/<\/properties/i \
-     <entry key="disallow.self.signed.certificate">false</entry> ' $config_path/proxy/eidas.xml
-
-RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeConnector\/ServiceProvider/https:\/\/eidas-demo-ca.eidasnode.dev\/EidasNodeConnector\/ServiceProvider/g' $config_path/sp/sp.properties
-RUN sed -i 's/http:\/\/localhost:8080\/EidasNodeProxy\/ServiceMetadata/https:\/\/eidas-demo-ca.eidasnode.dev\/EidasNodeProxy\/ServiceMetadata/g' $config_path/connector/eidas.xml
-
-# Add Norway (NO) as country 6
-RUN sed -i 's/country6.name=CF/country6.name=NO/g' $config_path/sp/sp.properties
-RUN sed -i 's/country6.url=http:\/\/localhost:9080\/EidasNodeConnector/country6.url=https:\/\/connector.eidasnode.dev/g' $config_path/sp/sp.properties
-
-RUN sed -i 's/service6.id">CF/service6.id">NO/g' $config_path/connector/eidas.xml
-RUN sed -i 's/service6.name">LOCAL-EIDAS-CF/service6.name">EIDAS-NO/g' $config_path/connector/eidas.xml
-RUN sed -i 's/service6.metadata.url">http:\/\/localhost:9080\/EidasNodeProxy/service6.metadata.url">https:\/\/proxy.eidasnode.dev/g' $config_path/connector/eidas.xml
-
-
-# Only allow https in proxy and connector
-RUN sed -i 's/metadata.restrict.http">false/metadata.restrict.http">true/g' $config_path/proxy/eidas.xml
-RUN sed -i 's/metadata.restrict.http">false/metadata.restrict.http">true/g' $config_path/connector/eidas.xml
-
-# White-lists for connector and proxy
-COPY docker/demo-config/MetadataFetcher_Connector.properties $config_path/connector/metadata/MetadataFetcher_Connector.properties
-COPY docker/demo-config/MetadataFetcher_Service.properties $config_path/proxy/metadata/MetadataFetcher_Service.properties
-
-# copy keystore with trusted norwegian certificate
-COPY docker/demo-config/connector-eidasKeyStore.p12 $config_path/connector/keystore/eidasKeyStore.p12
+# Delete files in config for replacement of environment spesific files on start up of Tomcat
+# Delete files in proxy and connector
+RUN rm $config_path/connector/eidas.xml && rm $config_path/proxy/eidas.xml && rm $config_path/proxy/metadata/MetadataFetcher_Service.properties && rm $config_path/connector/metadata/MetadataFetcher_Connector.properties && rm $config_path/connector/keystore/eidasKeyStore.p12
+# Delete files to be replaced in spesificConnector, spesificProxy and sp. (No change in idp for systest/test)
+RUN rm $config_path/sp/sp.properties && rm $config_path/specificConnector/specificConnector.xml && rm $config_path/specificProxyService/specificProxyService.xml
 
 FROM tomcat:9.0-jre11-temurin-jammy
+
+#Fjerner passord fra logger ved oppstart
+RUN sed -i -e 's/FINE/WARNING/g' /usr/local/tomcat/conf/logging.properties
+# Fjerner default applikasjoner fra tomcat
+RUN rm -rf /usr/local/tomcat/webapps.dist
+
+COPY docker/tomcat-config/setenv.sh ${CATALINA_HOME}/bin/
+COPY docker/tomcat-config/server.xml ${CATALINA_HOME}/conf/server.xml
 
 #øke stø
 RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/' ${CATALINA_HOME}/conf/server.xml
 # Copy setenv.sh to /usr/local/tomcat/bin/
-COPY docker/demo-config/setenv.sh ${CATALINA_HOME}/bin/
+
 
 # install bouncycastle
 COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
 COPY docker/bouncycastle/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1.78.jar
 
 # copy eidas-config
-RUN mkdir -p /usr/local/tomcat/eidas-config/
+RUN mkdir -p ${CATALINA_HOME}/eidas-config/
 COPY --from=builder /tmp/tomcat/ ${CATALINA_HOME}/eidas-config/
+COPY docker/profiles ${CATALINA_HOME}/profiles
+RUN chmod 776 ${CATALINA_HOME}/eidas-config
+
+COPY docker/addEnvironmentSpesificConfigFiles.sh ${CATALINA_HOME}/bin/addEnvironmentSpesificConfigFiles.sh
+RUN chmod 755 ${CATALINA_HOME}/bin/addEnvironmentSpesificConfigFiles.sh
 
 # Add war files to webapps: /usr/local/tomcat/webapps
 COPY --from=builder /data/TOMCAT/*.war ${CATALINA_HOME}/webapps/
@@ -82,4 +66,5 @@ RUN mkdir -p ${CATALINA_HOME}/eidas/logs && chmod 774 ${CATALINA_HOME}/eidas/log
 
 EXPOSE 8080
 
-CMD ["/bin/bash", "-c", "catalina.sh run"]
+CMD ["/bin/bash", "-c", "./bin/addEnvironmentSpesificConfigFiles.sh;catalina.sh run"]
+

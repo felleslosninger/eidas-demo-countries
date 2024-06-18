@@ -5,7 +5,7 @@ name: eidas-node-demo
 networks:
   eidas:
     name: eidas
-    
+
 services:
 
   eidas-demo-ca:
@@ -15,6 +15,8 @@ services:
       args:
         GIT_PACKAGE_TOKEN: ${GIT_PACKAGE_TOKEN}
         GIT_PACKAGE_USERNAME: ${GIT_PACKAGE_USERNAME}
+    environment:
+      - ENVIRONMENT=docker-ca
     ports:
       - "8080:8080"
     healthcheck:
@@ -29,6 +31,7 @@ services:
     command:
       - |
         cd /usr/local/tomcat
+        ./bin/addEnvironmentSpesificConfigFiles.sh
         ./bin/catalina.sh run
 
   eidas-demo-cb:
@@ -38,6 +41,8 @@ services:
       args:
         GIT_PACKAGE_TOKEN: ${GIT_PACKAGE_TOKEN}
         GIT_PACKAGE_USERNAME: ${GIT_PACKAGE_USERNAME}
+    environment:
+      - ENVIRONMENT=docker-cb
     ports:
       - "8081:8081"
     healthcheck:
@@ -52,6 +57,7 @@ services:
     command:
       - |
         cd /usr/local/tomcat
+        ./bin/addEnvironmentSpesificConfigFiles.sh
         ./bin/catalina.sh run
 
 
