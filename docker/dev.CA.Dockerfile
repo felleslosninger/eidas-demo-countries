@@ -25,6 +25,9 @@ RUN rm $config_path/connector/eidas.xml && rm $config_path/proxy/eidas.xml && rm
 # Delete files to be replaced in spesificConnector, spesificProxy, idp and sp
 RUN rm $config_path/sp/sp.properties && rm $config_path/specificConnector/specificConnector.xml && rm $config_path/specificProxyService/specificProxyService.xml && rm $config_path/idp/idp.properties
 
+# Test users
+COPY docker/demo-config/user.properties $config_path/idp/user.properties
+
 FROM tomcat:9.0-jre11-temurin-jammy
 
 #Fjerner passord fra logger ved oppstart
