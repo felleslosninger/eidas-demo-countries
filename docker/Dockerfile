@@ -49,7 +49,7 @@ COPY docker/bouncycastle/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1
 RUN mkdir -p ${CATALINA_HOME}/eidas-config/
 COPY --from=builder /tmp/tomcat/ ${CATALINA_HOME}/eidas-config/
 COPY docker/profiles ${CATALINA_HOME}/profiles
-RUN chmod 776 ${CATALINA_HOME}/eidas-config/proxy && chmod 776 ${CATALINA_HOME}/eidas-config/proxy/metadata && chmod 776 ${CATALINA_HOME}/eidas-config/connector && chmod 776 ${CATALINA_HOME}/eidas-config/connector/metadata && chmod 776 ${CATALINA_HOME}/eidas-config/connector/keystore && chmod 776 ${CATALINA_HOME}/eidas-config/idp && chmod 776 ${CATALINA_HOME}/eidas-config/sp && chmod 776 ${CATALINA_HOME}/eidas-config/specificConnector && chmod 776 ${CATALINA_HOME}/eidas-config/specificProxyService
+RUN chmod 776 ${CATALINA_HOME}/eidas-config && chmod 776 ${CATALINA_HOME}/eidas-config/proxy && chmod 776 ${CATALINA_HOME}/eidas-config/proxy/metadata && chmod 776 ${CATALINA_HOME}/eidas-config/connector && chmod 776 ${CATALINA_HOME}/eidas-config/connector/metadata && chmod 776 ${CATALINA_HOME}/eidas-config/connector/keystore && chmod 776 ${CATALINA_HOME}/eidas-config/idp && chmod 776 ${CATALINA_HOME}/eidas-config/sp && chmod 776 ${CATALINA_HOME}/eidas-config/specificConnector && chmod 776 ${CATALINA_HOME}/eidas-config/specificProxyService
 
 COPY docker/addEnvironmentSpesificConfigFiles.sh ${CATALINA_HOME}/bin/addEnvironmentSpesificConfigFiles.sh
 RUN chmod 755 ${CATALINA_HOME}/bin/addEnvironmentSpesificConfigFiles.sh
