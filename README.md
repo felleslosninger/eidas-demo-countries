@@ -33,7 +33,12 @@ To setup more counties duplicate dev.CB.Dockerfile and modifiy to port for a dif
 E.g as listed in eidas-config/sp/sp.properties inside the docker container.
 
 ### Run for testing environment
-TODO
+Only demo-country-CA will be build for test environments systest and test.
+
+### Configuration
+Is located in the docker folder. 
+The default configuration is downloadet from EU site along with the deployment artifacts (wars), but the configuration will be replaced by environment spesific files located in docker/profiles on start up of Tomcat by script addEnvironmentSpesificConfigFiles.sh.
+For local development there is set up two countries: CA and CB, but for testing Norwegian eIDAS only one is need and deploy, hence country CA.
 
 # Sequence diagrams
 The background colors indicates namespace in the Cluster, red is eidas-namespace.

@@ -19,8 +19,9 @@ RUN unzip eIDAS-node-dl.zip && \
 RUN unzip /data/TOMCAT/config.zip -d /tmp/
 ENV config_path=/tmp/tomcat
 
-# Delete files to be replaced in proxy and connector
-RUN rm $config_path/connector/eidas.xml && rm $config_path/proxy/eidas.xml && rm $config_path/connector/metadata/MetadataFetcher_Connector.properties && rm $config_path/proxy/metadata/MetadataFetcher_Service.properties && rm $config_path/connector/keystore/eidasKeyStore.p12
+# Delete files in config for replacement of environment spesific files on start up of Tomcat
+# Delete files in proxy and connector
+RUN rm $config_path/connector/eidas.xml && rm $config_path/proxy/eidas.xml && rm $config_path/proxy/metadata/MetadataFetcher_Service.properties && rm $config_path/connector/metadata/MetadataFetcher_Connector.properties && rm $config_path/connector/keystore/eidasKeyStore.p12
 # Delete files to be replaced in spesificConnector, spesificProxy, idp and sp
 RUN rm $config_path/sp/sp.properties && rm $config_path/specificConnector/specificConnector.xml && rm $config_path/specificProxyService/specificProxyService.xml && rm $config_path/idp/idp.properties
 
@@ -36,7 +37,7 @@ COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_b
 COPY docker/bouncycastle/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1.78.jar
 
 # copy eidas-config
-RUN mkdir -p /usr/local/tomcat/eidas-config/
+RUN mkdir -p ${CATALINA_HOME}/eidas-config/
 COPY --from=builder /tmp/tomcat/ ${CATALINA_HOME}/eidas-config/
 COPY docker/profiles ${CATALINA_HOME}/profiles
 RUN chmod 776 ${CATALINA_HOME}/eidas-config
