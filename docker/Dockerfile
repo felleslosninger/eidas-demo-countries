@@ -52,6 +52,9 @@ RUN sed -i 's/metadata.restrict.http">false/metadata.restrict.http">true/g' $con
 COPY docker/demo-config/MetadataFetcher_Connector.properties $config_path/connector/metadata/MetadataFetcher_Connector.properties
 COPY docker/demo-config/MetadataFetcher_Service.properties $config_path/proxy/metadata/MetadataFetcher_Service.properties
 
+# Test users
+COPY docker/demo-config/user.properties $config_path/idp/user.properties
+
 # copy keystore with trusted norwegian certificate
 COPY docker/demo-config/connector-eidasKeyStore.p12 $config_path/connector/keystore/eidasKeyStore.p12
 
