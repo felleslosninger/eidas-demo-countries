@@ -28,6 +28,9 @@ RUN rm $config_path/sp/sp.properties && rm $config_path/specificConnector/specif
 # Test users
 COPY docker/demo-config/user.properties $config_path/idp/user.properties
 
+# Test users
+COPY docker/user.properties $config_path/idp/user.properties
+
 FROM tomcat:9.0-jre11-temurin-jammy
 
 #Fjerner passord fra logger ved oppstart
