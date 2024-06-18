@@ -27,10 +27,15 @@ RUN rm $config_path/sp/sp.properties && rm $config_path/specificConnector/specif
 
 FROM tomcat:9.0-jre11-temurin-jammy
 
-RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/' ${CATALINA_HOME}/conf/server.xml
+#Fjerner passord fra logger ved oppstart
+RUN sed -i -e 's/FINE/WARNING/g' /usr/local/tomcat/conf/logging.properties
+# Fjerner default applikasjoner fra tomcat
+RUN rm -rf /usr/local/tomcat/webapps.dist
 
-# Copy setenv.sh to /usr/local/tomcat/bin/
 COPY docker/tomcat-config/setenv.sh ${CATALINA_HOME}/bin/
+COPY docker/tomcat-config/server.xml ${CATALINA_HOME}/conf/server.xml
+
+RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/' ${CATALINA_HOME}/conf/server.xml
 
 # install bouncycastle
 COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
