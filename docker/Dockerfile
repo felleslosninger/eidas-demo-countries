@@ -24,7 +24,7 @@ ENV config_path=/tmp/tomcat
 # Delete files in proxy and connector
 RUN rm $config_path/connector/eidas.xml && rm $config_path/proxy/eidas.xml && rm $config_path/proxy/metadata/MetadataFetcher_Service.properties && rm $config_path/connector/metadata/MetadataFetcher_Connector.properties && rm $config_path/connector/keystore/eidasKeyStore.p12
 # Delete files to be replaced in spesificConnector, spesificProxy and sp. (No change in idp for systest/test)
-RUN rm $config_path/sp/sp.properties && rm $config_path/specificConnector/specificConnector.xml && rm $config_path/specificProxyService/specificProxyService.xml
+RUN rm $config_path/sp/sp.properties && rm $config_path/specificConnector/specificConnector.xml && rm $config_path/specificProxyService/specificProxyService.xml && rm $config_path/idp/user.properties
 
 FROM tomcat:9.0-jre11-temurin-jammy
 
@@ -50,7 +50,6 @@ RUN mkdir -p ${CATALINA_HOME}/eidas-config/
 COPY --from=builder /tmp/tomcat/ ${CATALINA_HOME}/eidas-config/
 COPY docker/profiles ${CATALINA_HOME}/profiles
 RUN chmod 776 ${CATALINA_HOME}/eidas-config
-
 COPY docker/addEnvironmentSpesificConfigFiles.sh ${CATALINA_HOME}/bin/addEnvironmentSpesificConfigFiles.sh
 RUN chmod 755 ${CATALINA_HOME}/bin/addEnvironmentSpesificConfigFiles.sh
 
