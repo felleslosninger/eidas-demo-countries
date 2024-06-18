@@ -50,10 +50,6 @@ RUN mkdir -p ${CATALINA_HOME}/eidas-config/
 COPY --from=builder /tmp/tomcat/ ${CATALINA_HOME}/eidas-config/
 COPY docker/profiles ${CATALINA_HOME}/profiles
 RUN chmod 776 ${CATALINA_HOME}/eidas-config
-
-# Test users
-COPY docker/demo-config/user.properties $config_path/idp/user.properties
-
 COPY docker/addEnvironmentSpesificConfigFiles.sh ${CATALINA_HOME}/bin/addEnvironmentSpesificConfigFiles.sh
 RUN chmod 755 ${CATALINA_HOME}/bin/addEnvironmentSpesificConfigFiles.sh
 
