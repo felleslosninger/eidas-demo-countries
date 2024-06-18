@@ -56,7 +56,7 @@ COPY docker/demo-config/MetadataFetcher_Service.properties $config_path/proxy/me
 COPY docker/demo-config/connector-eidasKeyStore.p12 $config_path/connector/keystore/eidasKeyStore.p12
 
 # Test users
-COPY docker/demo-config/user.properties $config_path/idp/user.properties
+COPY docker/user.properties $config_path/idp/user.properties
 
 FROM tomcat:9.0-jre11-temurin-jammy
 
