@@ -172,7 +172,7 @@
                       NB: The only part modified by ID-porten is logging below. -->
                 <Valve className="org.apache.catalina.valves.AccessLogValve" directory="/dev"
                        prefix="stdout" suffix="" buffered="false" fileDateFormat=""
-                       pattern="{&quot;x_forwarded_for&quot;:&quot;%{X-Forwarded-For}i&quot;, &quot;timestamp&quot;:&quot;%{yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSSZ}t&quot;, &quot;elapsed_time&quot;:%D, &quot;request_url&quot;:&quot;%r&quot;, &quot;request_method&quot;:&quot;%m&quot;, &quot;message&quot;:&quot;%r %s&quot;, &quot;status_code&quot;:%s, &quot;bytes_sent&quot;:%b, &quot;user_agent&quot;:&quot;%{User-Agent}i&quot;, &quot;referer&quot;:&quot;%{Referer}i&quot;, &quot;application&quot;:&quot;eidas-connector&quot;, &quot;logtype&quot;:&quot;tomcat-access&quot;, &quot;traceparent&quot;:&quot;%{traceparent}i&quot;}"/>
+                       pattern="{&quot;x_forwarded_for&quot;:&quot;%{X-Forwarded-For}i&quot;, &quot;timestamp&quot;:&quot;%{yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSSZ}t&quot;, &quot;elapsed_time&quot;:%D, &quot;request_url&quot;:&quot;%r&quot;, &quot;request_method&quot;:&quot;%m&quot;, &quot;message&quot;:&quot;%r %s&quot;, &quot;status_code&quot;:%s, &quot;bytes_sent&quot;:%b, &quot;user_agent&quot;:&quot;%{User-Agent}i&quot;, &quot;referer&quot;:&quot;%{Referer}i&quot;, &quot;application&quot;:&quot;eidas-demo-country&quot;, &quot;logtype&quot;:&quot;tomcat-access&quot;, &quot;traceparent&quot;:&quot;%{traceparent}i&quot;}"/>
 
             </Host>
         </Engine>
