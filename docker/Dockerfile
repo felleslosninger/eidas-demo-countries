@@ -26,7 +26,7 @@ RUN rm $config_path/connector/eidas.xml && rm $config_path/proxy/eidas.xml && rm
 # Delete files to be replaced in spesificConnector, spesificProxy and sp. (No change in idp for systest/test)
 RUN rm $config_path/sp/sp.properties && rm $config_path/specificConnector/specificConnector.xml && rm $config_path/specificProxyService/specificProxyService.xml && rm $config_path/idp/user.properties
 
-FROM tomcat:9.0-jre11-temurin-jammy
+FROM tomcat:9.0.93-jre11-temurin-jammy
 
 #Fjerner passord fra logger ved oppstart
 RUN sed -i -e 's/FINE/WARNING/g' /usr/local/tomcat/conf/logging.properties
