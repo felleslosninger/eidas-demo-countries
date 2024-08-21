@@ -40,6 +40,10 @@ Is located in the docker folder.
 The default configuration is downloadet from EU site along with the deployment artifacts (wars), but the configuration will be replaced by environment spesific files located in docker/profiles on start up of Tomcat by script addEnvironmentSpesificConfigFiles.sh.
 For local development there is set up two countries: CA and CB, but for testing Norwegian eIDAS only one is need and deploy, hence country CA.
 
+### Configuration of trust of Norwegian metadata signing certificate
+Import in docker/profiles/<ENVIRONMENT>/keystore/eidasKeyStore.p12 the Norwegian metadata signing certificate. Remove old of naming format norwegian-eidasnode-metadata-<environment>.
+Use the program Keystore Exporter or plain java keytool from CMD to import certificate chain to trust.
+
 # Sequence diagrams
 The background colors indicates namespace in the Cluster, red is eidas-namespace.
 ## Norwegian citizen
