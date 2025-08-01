@@ -2,10 +2,10 @@
 
 eIDAS-node demo-countries CA and CB with applications: proxy/connector/demo-sp/demo-idp for testing purposes.
 
-See these documents in https://ec.europa.eu/digital-building-blocks/sites/display/DIGITAL/eIDAS-Node+version+2.7.1:
-* eIDAS-Node Installation Quick Start Guide v2.7.pdf
-* eIDAS-Node Installation and Configuration Guide v2.7.1.pdf
-* eIDAS-Node Demo Tools Installation and Configuration Guide v2.7.pdf
+See these documents in https://ec.europa.eu/digital-building-blocks/sites/display/DIGITAL/eIDAS-Node+version+2.9.0:
+* eIDAS-Node Installation Quick Start Guide v2.9.0.pdf
+* eIDAS-Node Installation and Configuration Guide v2.9.0.pdf
+* eIDAS-Node Demo Tools Installation and Configuration Guide v2.9.0.pdf
 
 
 ### Run demo country CA and demo country CB as docker-compose on your machine for local testing
@@ -43,6 +43,7 @@ For local development there is set up two countries: CA and CB, but for testing 
 ### Configuration of trust of Norwegian metadata signing certificate
 Import in docker/profiles/<ENVIRONMENT>/keystore/eidasKeyStore.p12 the Norwegian metadata signing certificate. Remove old of naming format norwegian-eidasnode-metadata-<environment>.
 Use the program Keystore Exporter or plain java keytool from CMD to import certificate chain to trust.
+Keystore password is local-demo
 
 # Sequence diagrams
 The background colors indicates namespace in the Cluster, red is eidas-namespace.

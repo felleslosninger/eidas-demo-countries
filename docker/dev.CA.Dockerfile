@@ -40,7 +40,7 @@ RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/' ${CA
 
 # install bouncycastle
 COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
-COPY docker/bouncycastle/bcprov-jdk18on-1.78.1.jar ${CATALINA_HOME}/lib/
+COPY docker/bouncycastle/bcprov-jdk18on-1.78.1.jar ${CATALINA_HOME}/lib/bcprov-jdk18on-1.78.1.jar
 
 # copy eidas-config
 RUN mkdir -p ${CATALINA_HOME}/eidas-config/
