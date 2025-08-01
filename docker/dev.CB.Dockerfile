@@ -1,11 +1,11 @@
-FROM alpine:latest as builder
+FROM alpine:latest AS builder
 
 # Install software
 RUN apk add --no-cache zip unzip curl
 
 WORKDIR /data
 
-ARG EIDAS_NODE_VERSION=2.7.1
+ARG EIDAS_NODE_VERSION=2.9.0
 ARG EIDAS_NODE_URL=https://ec.europa.eu/digital-building-blocks/artifact/repository/eid/eu/eIDAS-node/${EIDAS_NODE_VERSION}/eIDAS-node-${EIDAS_NODE_VERSION}.zip
 
 # Download eIDAS-Node Software
@@ -25,7 +25,7 @@ RUN rm $config_path/connector/eidas.xml && rm $config_path/proxy/eidas.xml && rm
 RUN rm $config_path/sp/sp.properties && rm $config_path/specificConnector/specificConnector.xml && rm $config_path/specificProxyService/specificProxyService.xml && rm $config_path/idp/idp.properties
 
 
-FROM tomcat:9.0-jre11-temurin-jammy
+FROM tomcat:9.0-jre17-temurin-jammy
 
 #Fjerner passord fra logger ved oppstart
 RUN sed -i -e 's/FINE/WARNING/g' /usr/local/tomcat/conf/logging.properties
@@ -40,7 +40,7 @@ RUN sed -i 's/port="8080"/port="8081"/' ${CATALINA_HOME}/conf/server.xml
 
 # install bouncycastle
 COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
-COPY docker/bouncycastle/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1.78.jar
+COPY docker/bouncycastle/bcprov-jdk18on-1.78.1.jar ${CATALINA_HOME}/lib/
 
 # copy eidas-config
 RUN mkdir -p ${CATALINA_HOME}/eidas-config/
