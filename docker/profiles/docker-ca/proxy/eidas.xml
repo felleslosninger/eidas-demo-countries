@@ -55,6 +55,7 @@
 
     <!-- Restrict metadata retrieval to https -->
     <entry key="metadata.restrict.http">false</entry>
+    <entry key="check.certificate.validity.period">false</entry>
     <!--URL for specific-proxyService requests receiver only needed when specific  -->
     <entry key="specific.proxyservice.request.receiver">http://eidas-demo-ca:8080/SpecificProxyService/ProxyServiceRequest</entry>
 

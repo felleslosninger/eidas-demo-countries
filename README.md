@@ -43,7 +43,8 @@ For local development there is set up two countries: CA and CB, but for testing 
 ### Configuration of trust of Norwegian metadata signing certificate
 Import in docker/profiles/<ENVIRONMENT>/keystore/eidasKeyStore.p12 the Norwegian metadata signing certificate. Remove old of naming format norwegian-eidasnode-metadata-<environment>.
 Use the program Keystore Exporter or plain java keytool from CMD to import certificate chain to trust.
-Keystore password is local-demo
+
+Keystore password is local-demo for docker
 
 # Sequence diagrams
 The background colors indicates namespace in the Cluster, red is eidas-namespace.
