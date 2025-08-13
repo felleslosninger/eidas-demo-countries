@@ -2,13 +2,19 @@
 # tomcat options jvm
 export CATALINA_OPTS="-Xms512m -Xmx1024m"
 
-
 # bouncycastle. 
 export JAVA_OPTS="$JAVA_OPTS -Djava.security.properties=/opt/java/openjdk/conf/security/java_bc.security"
-export JAVA_OPTS="$JAVA_OPTS --module-path /usr/local/lib/bcprov-jdk18on-1.78.jar"
-export JAVA_OPTS="$JAVA_OPTS --add-modules org.bouncycastle.provider"
 
+export JAVA_OPTS="$JAVA_OPTS \
+--add-opens=java.base/sun.security.x509=ALL-UNNAMED \
+--add-opens=java.base/java.security.cert=ALL-UNNAMED \
+--add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED \
+--add-opens=java.base/java.nio=ALL-UNNAMED \
+--add-opens=java.base/java.net=ALL-UNNAMED \
+--add-opens=java.base/java.time=ALL-UNNAMED"
 
+export IGNITE_HOME=${CATALINA_HOME}/ignite
+export JAVA_OPTS="$JAVA_OPTS -DIGNITE_HOME=${IGNITE_HOME}"
 # eidas config
 export EIDAS_CONFIG_REPOSITORY=/usr/local/tomcat/eidas-config
 

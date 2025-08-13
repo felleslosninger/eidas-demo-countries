@@ -97,6 +97,7 @@
 
     <!--Restrictmetadataretrievaltohttps-->
     <entry key="metadata.restrict.http">false</entry>
+    <entry key="check.certificate.validity.period">false</entry>
     <!--URL for specific-connector response receiver -->
     <entry key="specific.connector.response.receiver">http://eidas-demo-ca:8080/SpecificConnector/ConnectorResponse</entry>
 

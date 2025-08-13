@@ -1,11 +1,11 @@
-FROM alpine:latest as builder
+FROM alpine:latest AS builder
 
 # Install software
 RUN apk add --no-cache zip unzip curl
 
 WORKDIR /data
 
-ARG EIDAS_NODE_VERSION=2.7.1
+ARG EIDAS_NODE_VERSION=2.9.0
 ARG EIDAS_NODE_URL=https://ec.europa.eu/digital-building-blocks/artifact/repository/eid/eu/eIDAS-node/${EIDAS_NODE_VERSION}/eIDAS-node-${EIDAS_NODE_VERSION}.zip
 
 # Download eIDAS-Node Software
@@ -22,11 +22,11 @@ ENV config_path=/tmp/tomcat
 
 # Delete files in config for replacement of environment spesific files on start up of Tomcat
 # Delete files in proxy and connector
-RUN rm $config_path/connector/eidas.xml && rm $config_path/proxy/eidas.xml && rm $config_path/proxy/metadata/MetadataFetcher_Service.properties && rm $config_path/connector/metadata/MetadataFetcher_Connector.properties && rm $config_path/proxy/keystore/eidasKeyStore.p12 && rm $config_path/connector/keystore/eidasKeyStore.p12
+RUN rm $config_path/connector/eidas.xml && rm $config_path/proxy/eidas.xml && rm $config_path/proxy/metadata/MetadataFetcher_Service.properties && rm $config_path/connector/metadata/MetadataFetcher_Connector.properties && rm $config_path/proxy/keystore/eidasKeyStore.p12 && rm $config_path/connector/keystore/eidasKeyStore.p12 && rm $config_path/proxy/keystore/eidasTrustStore.p12 && rm $config_path/connector/keystore/eidasTrustStore.p12
 # Delete files to be replaced in spesificConnector, spesificProxy and sp. (No change in idp for systest/test)
 RUN rm $config_path/sp/sp.properties && rm $config_path/specificConnector/specificConnector.xml && rm $config_path/specificProxyService/specificProxyService.xml && rm $config_path/idp/user.properties
 
-FROM tomcat:9.0-jre11-temurin-jammy
+FROM tomcat:9.0-jre17-temurin-jammy
 
 #Fjerner passord fra logger ved oppstart
 RUN sed -i -e 's/FINE/WARNING/g' /usr/local/tomcat/conf/logging.properties
@@ -43,7 +43,7 @@ RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/' ${CA
 
 # install bouncycastle
 COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
-COPY docker/bouncycastle/bcprov-jdk18on-1.78.jar /usr/local/lib/bcprov-jdk18on-1.78.jar
+COPY docker/bouncycastle/bcprov-jdk18on-1.78.1.jar ${CATALINA_HOME}/lib/bcprov-jdk18on-1.78.1.jar
 
 # copy eidas-config
 RUN mkdir -p ${CATALINA_HOME}/eidas-config/
