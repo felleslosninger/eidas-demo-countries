@@ -46,6 +46,10 @@ Use the program Keystore Exporter or plain java keytool from CMD to import certi
 
 Keystore password is local-demo for docker
 
+The eidasTrustStore.p12 in the connector and proxy profile is used to trust the Norwegian metadata signing certificate in the eidas-proxy and eidas-connector.
+The certificate is different in systest and test and can be found using the eidas dashboard.
+
+
 # Sequence diagrams
 The background colors indicates namespace in the Cluster, red is eidas-namespace.
 ## Norwegian citizen
