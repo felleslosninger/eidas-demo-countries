@@ -32,6 +32,31 @@ Country CA is on port 8080 and Country CB is on port 8081.
 To setup more counties duplicate dev.CB.Dockerfile and modifiy to port for a different country, the eu-config package supports 6 countries: CA, CB, CC, CD, CE, CF.
 E.g as listed in eidas-config/sp/sp.properties inside the docker container.
 
+### Test users
+The demo IdP includes predefined test users you can use during a login flow. The most relevant ones are:
+
+- dim
+  - Username: `dim`
+  - Password: `dim`
+  - Description: Natural person test user (will not get a match i.e. a pid).
+
+- sve
+  - Username: `sve`
+  - Password: `sve`
+  - Description: Swedish test user ("Svensk testbruker". Will only get a match when using direct freg-matching).
+
+- nobid
+  - Username: `nobid`
+  - Password: `nobid`
+  - Description: Swedish test user that will give a match using nobid matching 
+
+Where they are defined:
+- See `docker/profiles/<ENV>/idp/user.properties` for each environment (for example: `docker/profiles/test/idp/user.properties`, `docker/profiles/systest/idp/user.properties`, or `docker/profiles/docker-ca/idp/user.properties`).
+
+Notes:
+- If you change or add users, rebuild and restart the containers to load the updated `user.properties`.
+- The IdP login page typically lists available usernames; credentials often follow `username=username` unless changed.
+
 ### Run for testing environment
 Only demo-country-CA will be build for test environments systest and test.
 
@@ -39,6 +64,26 @@ Only demo-country-CA will be build for test environments systest and test.
 Is located in the docker folder. 
 The default configuration is downloadet from EU site along with the deployment artifacts (wars), but the configuration will be replaced by environment spesific files located in docker/profiles on start up of Tomcat by script addEnvironmentSpesificConfigFiles.sh.
 For local development there is set up two countries: CA and CB, but for testing Norwegian eIDAS only one is need and deploy, hence country CA.
+
+### Configuration of keys and certificates
+If you have updated the encryption/signing key in the eidas-idporten-connector, update the keystores in this repository as follows:
+
+- Where to put the new private key + certificate (key pair):
+  - Replace the file docker/profiles/<ENVIRONMENT>/connector/keystore/eidasKeyStore.p12 with a keystore that contains the new key pair used by your Connector.
+  - If you also updated the Proxy-Service keys, replace docker/profiles/<ENVIRONMENT>/proxy/keystore/eidasKeyStore.p12 accordingly.
+  - Keystore password (default for docker) is: local-demo.
+
+- Where the public key is used/consumed:
+  - connector and proxy's public keys are published automatically via their Metadata endpoints defined in the eidas.xml files. Other nodes will pick up the new public keys when they refresh our metadata. 
+  - Make sure the metadata URLs are correct for your environment:
+    - docker/profiles/<ENVIRONMENT>/connector/eidas.xml → connector.metadata.url
+    - docker/profiles/<ENVIRONMENT>/proxy/eidas.xml → service.metadata.url (ServiceMetadata)
+
+- Trusting foreign metadata (metadata signing certificates):
+  - The truststores used to validate foreign metadata signatures are located here:
+    - docker/profiles/<ENVIRONMENT>/connector/keystore/eidasTrustStore.p12
+    - docker/profiles/<ENVIRONMENT>/proxy/keystore/eidasTrustStore.p12
+  - If a foreign country updates its metadata signing certificate, import their new metadata signing certificate chain into these truststores.
 
 ### Configuration of trust of Norwegian metadata signing certificate
 Import in docker/profiles/<ENVIRONMENT>/keystore/eidasKeyStore.p12 the Norwegian metadata signing certificate. Remove old of naming format norwegian-eidasnode-metadata-<environment>.
