@@ -32,6 +32,31 @@ Country CA is on port 8080 and Country CB is on port 8081.
 To setup more counties duplicate dev.CB.Dockerfile and modifiy to port for a different country, the eu-config package supports 6 countries: CA, CB, CC, CD, CE, CF.
 E.g as listed in eidas-config/sp/sp.properties inside the docker container.
 
+### Test users
+The demo IdP includes predefined test users you can use during a login flow. The most relevant ones are:
+
+- dim
+  - Username: `dim`
+  - Password: `dim`
+  - Description: Natural person test user (will not get a match i.e. a pid).
+
+- sve
+  - Username: `sve`
+  - Password: `sve`
+  - Description: Swedish test user ("Svensk testbruker". Will only get a match when using direct freg-matching).
+
+- nobid
+  - Username: `nobid`
+  - Password: `nobid`
+  - Description: Swedish test user that will give a match using nobid matching 
+
+Where they are defined:
+- See `docker/profiles/<ENV>/idp/user.properties` for each environment (for example: `docker/profiles/test/idp/user.properties`, `docker/profiles/systest/idp/user.properties`, or `docker/profiles/docker-ca/idp/user.properties`).
+
+Notes:
+- If you change or add users, rebuild and restart the containers to load the updated `user.properties`.
+- The IdP login page typically lists available usernames; credentials often follow `username=username` unless changed.
+
 ### Run for testing environment
 Only demo-country-CA will be build for test environments systest and test.
 
