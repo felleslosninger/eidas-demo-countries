@@ -40,6 +40,26 @@ Is located in the docker folder.
 The default configuration is downloadet from EU site along with the deployment artifacts (wars), but the configuration will be replaced by environment spesific files located in docker/profiles on start up of Tomcat by script addEnvironmentSpesificConfigFiles.sh.
 For local development there is set up two countries: CA and CB, but for testing Norwegian eIDAS only one is need and deploy, hence country CA.
 
+### Configuration of keys and certificates
+If you have updated the encryption/signing key in the eidas-idporten-connector, update the keystores in this repository as follows:
+
+- Where to put the new private key + certificate (key pair):
+  - Replace the file docker/profiles/<ENVIRONMENT>/connector/keystore/eidasKeyStore.p12 with a keystore that contains the new key pair used by your Connector.
+  - If you also updated the Proxy-Service keys, replace docker/profiles/<ENVIRONMENT>/proxy/keystore/eidasKeyStore.p12 accordingly.
+  - Keystore password (default for docker) is: local-demo.
+
+- Where the public key is used/consumed:
+  - connector and proxy's public keys are published automatically via their Metadata endpoints defined in the eidas.xml files. Other nodes will pick up the new public keys when they refresh our metadata. 
+  - Make sure the metadata URLs are correct for your environment:
+    - docker/profiles/<ENVIRONMENT>/connector/eidas.xml → connector.metadata.url
+    - docker/profiles/<ENVIRONMENT>/proxy/eidas.xml → service.metadata.url (ServiceMetadata)
+
+- Trusting foreign metadata (metadata signing certificates):
+  - The truststores used to validate foreign metadata signatures are located here:
+    - docker/profiles/<ENVIRONMENT>/connector/keystore/eidasTrustStore.p12
+    - docker/profiles/<ENVIRONMENT>/proxy/keystore/eidasTrustStore.p12
+  - If a foreign country updates its metadata signing certificate, import their new metadata signing certificate chain into these truststores.
+
 ### Configuration of trust of Norwegian metadata signing certificate
 Import in docker/profiles/<ENVIRONMENT>/keystore/eidasKeyStore.p12 the Norwegian metadata signing certificate. Remove old of naming format norwegian-eidasnode-metadata-<environment>.
 Use the program Keystore Exporter or plain java keytool from CMD to import certificate chain to trust.

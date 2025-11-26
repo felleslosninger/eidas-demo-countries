@@ -33,6 +33,9 @@ RUN sed -i -e 's/FINE/WARNING/g' /usr/local/tomcat/conf/logging.properties
 # Fjerner default applikasjoner fra tomcat
 RUN rm -rf /usr/local/tomcat/webapps.dist
 
+# Install wget
+RUN apt update && apt install wget -y
+
 COPY docker/tomcat-config/setenv.sh ${CATALINA_HOME}/bin/
 COPY docker/tomcat-config/server.xml ${CATALINA_HOME}/conf/server.xml
 

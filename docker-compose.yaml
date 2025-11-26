@@ -34,30 +34,31 @@ services:
         ./bin/addEnvironmentSpesificConfigFiles.sh
         ./bin/catalina.sh run
 
-  eidas-demo-cb:
-    build:
-      context: .
-      dockerfile: docker/dev.CB.Dockerfile
-      args:
-        GIT_PACKAGE_TOKEN: ${GIT_PACKAGE_TOKEN}
-        GIT_PACKAGE_USERNAME: ${GIT_PACKAGE_USERNAME}
-    environment:
-      - ENVIRONMENT=docker-cb
-    ports:
-      - "8081:8081"
-    healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://eidas-demo-cb:8081/SP || exit 1
-      interval: 5s
-      start_period: 8s
-      timeout: 5s
-      retries: 20
-    networks:
-      - eidas
-    entrypoint: "/bin/bash -c"
-    command:
-      - |
-        cd /usr/local/tomcat
-        ./bin/addEnvironmentSpesificConfigFiles.sh
-        ./bin/catalina.sh run
+##### Kommenter inn ved behov:
+#  eidas-demo-cb:
+#    build:
+#      context: .
+#      dockerfile: docker/dev.CB.Dockerfile
+#      args:
+#        GIT_PACKAGE_TOKEN: ${GIT_PACKAGE_TOKEN}
+#        GIT_PACKAGE_USERNAME: ${GIT_PACKAGE_USERNAME}
+#    environment:
+#      - ENVIRONMENT=docker-cb
+#    ports:
+#      - "8081:8081"
+#    healthcheck:
+#      test: wget --no-verbose --tries=1 --spider http://eidas-demo-cb:8081/SP || exit 1
+#      interval: 5s
+#      start_period: 8s
+#      timeout: 5s
+#      retries: 20
+#    networks:
+#      - eidas
+#    entrypoint: "/bin/bash -c"
+#    command:
+#      - |
+#        cd /usr/local/tomcat
+#        ./bin/addEnvironmentSpesificConfigFiles.sh
+#        ./bin/catalina.sh run
 
 
