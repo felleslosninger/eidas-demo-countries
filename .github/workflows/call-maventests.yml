@@ -11,6 +11,7 @@ jobs:
     env:
       IMAGE_NAME: my-local-registery/eidas-demo-country-ca
       DOCKLE_HOST: "unix:///var/run/docker.sock"
+      TRIVY_OFFLINE_SCAN: false
     steps:
       - name: Set imagetag as env variable
         run: echo "IMAGETAG=$(date +'%Y-%m-%d-%H%M')-${GITHUB_SHA::8}" >> "$GITHUB_ENV"
@@ -21,13 +22,8 @@ jobs:
         with:
           image: ${{ env.IMAGE_NAME}}:${{env.IMAGETAG}}
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2 # pin@v0.28.0
-        id: trivy-primary
-        env:
-          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db:2,public.ecr.aws/aquasecurity/trivy-db:2
-          TRIVY_JAVA_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-java-db:1,public.ecr.aws/aquasecurity/trivy-java-db:1
+        uses: felleslosninger/github-workflows/.github/actions/trivy-scan@main
         with:
-          image-ref: "${{ env.IMAGE_NAME}}:${{env.IMAGETAG}}"
-          exit-code: "1"
-          severity: "CRITICAL,HIGH"
+          image-ref: "${{ env.IMAGE_NAME }}:${{env.IMAGETAG}}"
+          os-exit-code: "1"
 
