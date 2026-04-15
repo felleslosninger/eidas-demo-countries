@@ -101,4 +101,5 @@
     <entry key="specific.connector.response.receiver">https://eidas-demo-ca.test.eidasnode.no/SpecificConnector/ConnectorResponse</entry>
 
     <entry key="disallow.self.signed.certificate">false</entry>
+    <entry key="enable.certificate.revocation.checking">false</entry>
 </properties>
