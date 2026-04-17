@@ -18,9 +18,23 @@
   -->
 
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-
+<!-- this configfile is only used when the supplied test certificates expire -->
 <properties>
 	<comment>RSA Signing Example: Software Keystore</comment>
+	<!-- 1. Disable Revocation Checking (Original fix, add both just in case) -->
+	<entry key="enable.certificate.revocation.checking">false</entry>
+	<entry key="metadata.enable.certificate.revocation.checking">false</entry>
+	<entry key="enable.certificate.revocation.soft.fail">true</entry>
+	<entry key="metadata.enable.certificate.revocation.soft.fail">true</entry>
+
+	<!-- 2. Allow Self-Signed Certificates (Crucial for nistP256-cert) -->
+	<entry key="disallow.self.signed.certificate">false</entry>
+	<entry key="metadata.disallow.self.signed.certificate">false</entry>
+
+	<!-- 3. Optional: Skip validity period check if your local clock is off -->
+	<entry key="check.certificate.validity.period">false</entry>
+	<entry key="metadata.check.certificate.validity.period">false</entry>
+
 <!-- Request Signing with RSASSA-PSS -->
 	<!--Algorithm-->
 		<!--<entry key="signature.algorithm">http://www.w3.org/2007/05/xmldsig-more#sha256-rsa-MGF1</entry>-->
