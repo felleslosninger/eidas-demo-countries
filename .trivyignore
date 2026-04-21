@@ -1,1 +1,5 @@
-
+CVE-2024-47554 #commons-io fixed in 2.14.0
+CVE-2025-48976 # commons-fileupload fixed in 2.0.0-M4
+CVE-2025-64775 # struts2-core
+CVE-2025-66675 # struts2-core
+CVE-2025-41249 # spring-security vuln in eidas-connector 2.9.0 (outside of our control)
