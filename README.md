@@ -2,10 +2,10 @@
 
 eIDAS-node demo-countries CA and CB with applications: proxy/connector/demo-sp/demo-idp for testing purposes.
 
-See these documents in https://ec.europa.eu/digital-building-blocks/sites/display/DIGITAL/eIDAS-Node+version+2.9.0:
-* eIDAS-Node Installation Quick Start Guide v2.9.0.pdf
-* eIDAS-Node Installation and Configuration Guide v2.9.0.pdf
-* eIDAS-Node Demo Tools Installation and Configuration Guide v2.9.0.pdf
+See these documents in https://ec.europa.eu/digital-building-blocks/sites/spaces/DIGITAL/pages/920064870/eIDAS-Node+version+3.0.0:
+* eIDAS-Node Installation Quick Start Guide v3.0.0.pdf
+* eIDAS-Node Installation and Configuration Guide v3.0.0.pdf
+* eIDAS-Node Demo Tools Installation and Configuration Guide v3.0.0.pdf
 
 
 ### Run demo country CA and demo country CB as docker-compose on your machine for local testing
