@@ -22,7 +22,7 @@
     <!-- issuer name -->
     <entry key="issuer.name">specificConnector</entry>
     <!-- node's url to send the binary light token related to the request -->
-    <entry key="specific.connector.request.url">http://eidas-demo-ca:8080/EidasNodeConnector/SpecificConnectorRequest</entry>
+    <entry key="specific.connector.request.url">http://eidas-demo-ca:8084/EidasNodeConnector/SpecificConnectorRequest</entry>
 
     <entry key="relaystate.randomize.null">true</entry>
 
