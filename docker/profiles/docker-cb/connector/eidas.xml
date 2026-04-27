@@ -51,7 +51,7 @@
     <entry key="service1.name">LOCAL-EIDAS-CA</entry>
     <entry key="service1.skew.notbefore">0</entry>
     <entry key="service1.skew.notonorafter">0</entry>
-    <entry key="service1.metadata.url">http://eidas-demo-ca:8080/EidasNodeProxy/ServiceMetadata</entry>
+    <entry key="service1.metadata.url">http://eidas-demo-ca:8084/EidasNodeProxy/ServiceMetadata</entry>
 
     <!-- Proxy-Service CB-->
     <entry key="service2.id">CB</entry>
