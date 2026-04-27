@@ -45,7 +45,7 @@ COPY docker/tomcat-config/setenv.sh ${CATALINA_HOME}/bin/
 COPY docker/tomcat-config/server.xml ${CATALINA_HOME}/conf/server.xml
 
 # change tomcat port
-RUN sed -i 's/port="8080"/port="8081"/' ${CATALINA_HOME}/conf/server.xml
+RUN sed -i 's/port="8084"/port="8081"/' ${CATALINA_HOME}/conf/server.xml
 
 # install bouncycastle
 ARG BC_VERSION=1.81
