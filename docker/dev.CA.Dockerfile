@@ -44,7 +44,7 @@ RUN apt update && apt install wget -y
 COPY docker/tomcat-config/setenv.sh ${CATALINA_HOME}/bin/
 COPY docker/tomcat-config/server.xml ${CATALINA_HOME}/conf/server.xml
 
-RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/' ${CATALINA_HOME}/conf/server.xml
+RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/; s/port="8080"/port="8084"/' ${CATALINA_HOME}/conf/server.xml
 
 # install bouncycastle
 ARG BC_VERSION=1.81
