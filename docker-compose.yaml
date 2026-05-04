@@ -18,7 +18,7 @@ services:
     environment:
       - ENVIRONMENT=docker-ca
     ports:
-      - "8084:8080"
+      - "8084:8084"
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://eidas-demo-ca:8084/SP || exit 1
       interval: 5s
