@@ -68,4 +68,4 @@ COPY --from=builder /data/WARS/*.war ${CATALINA_HOME}/webapps/
 # eIDAS audit log folder
 RUN mkdir -p ${CATALINA_HOME}/eidas/logs && chmod 744 ${CATALINA_HOME}/eidas/logs
 
-EXPOSE 8080
+EXPOSE 8084
