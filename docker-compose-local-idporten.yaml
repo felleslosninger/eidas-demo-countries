@@ -93,7 +93,7 @@ services:
     command:
       - |
         cd /usr/local/webapps
-        java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5006 -jar application.jar
+        java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 -jar application.jar
 
 
 ##### Kommenter inn ved behov:
