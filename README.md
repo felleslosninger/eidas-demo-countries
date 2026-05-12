@@ -22,7 +22,7 @@ docker-compose up --build
 ```
 This will run two docker services each with a tomcat instance with all the six EU-war files deployed for running demo country.
 
-To test go to: http://eidas-demo-ca:8080/SP
+To test go to: http://eidas-demo-ca:8084/SP
 and choose SP Country: CA and Citizen Country: CB.
 Then select "Do not request" in section "Requested core attributes" and show natural person and click as optional or mandatory the 4 required attributes. Then next until reach idp.
 Users are listed in <tomcat>/eu-config/idp/user.properties folder in the docker container on format <username>=<passord>. You may start with dim=dim.
@@ -31,6 +31,65 @@ Country CA is on port 8080 and Country CB is on port 8081.
 
 To setup more counties duplicate dev.CB.Dockerfile and modifiy to port for a different country, the eu-config package supports 6 countries: CA, CB, CC, CD, CE, CF.
 E.g as listed in eidas-config/sp/sp.properties inside the docker container.
+
+### Run demo county CA against local ID-porten for local testing
+Add the following to your /etc/hosts file for convenience to access the different nodes by name instead of localhost and port
+```
+    # idporten local dev
+    127.0.0.1 c2id
+    127.0.0.1 minid
+    127.0.0.1 idporten
+    127.0.0.1 user-service
+    127.0.0.1 minidsi
+    127.0.0.1 minid
+    127.0.0.1 scope-api
+    127.0.0.1 freg-gateway:
+    127.0.0.1 eidas-demo-ca
+    # eIDAS local dev
+    127.0.0.1 eidas-connector
+    127.0.0.1 eidas-proxy
+    127.0.0.1 eidas-idporten-proxy
+```
+
+Build images for eidas-idporten-proxy and eidas-proxy, these images are referenced in the docker-compose-local-idporten, but are not yet published to CR and need to be built locally for now:
+
+In the root of the eidas-proxy repository, run:
+
+```bash
+docker build --no-cache \
+  --build-arg GIT_PACKAGE_USERNAME \
+  --build-arg GIT_PACKAGE_TOKEN \
+  -f docker/dev.Dockerfile \
+  -t eidas-proxy:local-dev \
+  .
+```
+
+In the root of the eidas-idporten-proxy repository, run:
+
+```bash
+docker build \
+    --build-arg GIT_PACKAGE_USERNAME \
+    --build-arg GIT_PACKAGE_TOKEN \
+    -f docker/dev.Dockerfile \
+    -t eidas-idporten-proxy:local-dev \
+    .
+```
+
+Start docker containers in this order to run demo country CA against local ID-porten:
+
+1. docker compose for idporten-c2id-server repo
+2. docker compose for idporten-login repo
+
+both can be started with the command:
+```bash
+docker-compose up --build
+```
+
+3. docker compose for eidas-demo-countries with local idporten configuration (docker-compose-local-idporten.yml)
+```bash
+docker-compose -f docker-compose-local-idporten.yml up --build
+```
+This will run the demo country CA with the eidas-idporten-proxy and eidas-proxy configured to connect to the local ID-porten instance instead of the test or systest environments.
 
 ### Test users
 The demo IdP includes predefined test users you can use during a login flow. The most relevant ones are:
