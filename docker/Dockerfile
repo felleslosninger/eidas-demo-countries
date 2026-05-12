@@ -6,7 +6,7 @@ RUN apk add --no-cache zip unzip curl
 WORKDIR /data
 
 ARG EIDAS_NODE_VERSION=3.0.0
-ARG BC_VERSION=1.81
+ARG BC_VERSION=1.84
 ARG EIDAS_NODE_URL=https://ec.europa.eu/digital-building-blocks/artifact/repository/eid/eu/eIDAS-node/${EIDAS_NODE_VERSION}/eIDAS-node-${EIDAS_NODE_VERSION}.zip
 
 # Download eIDAS-Node Software
@@ -42,7 +42,7 @@ RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/' ${CA
 # Copy setenv.sh to /usr/local/tomcat/bin/
 
 # install bouncycastle
-ARG BC_VERSION=1.81
+ARG BC_VERSION=1.84
 ARG BC_JAR=bcprov-jdk18on-${BC_VERSION}.jar
 ARG BC_URL=https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk18on/${BC_VERSION}/${BC_JAR}
 COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
