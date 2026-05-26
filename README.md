@@ -75,6 +75,16 @@ docker build \
     .
 ```
 
+Change the active spring profiles for the idporten-oidc-demo-client specified in the docker-compose file of the idporten-login repository
+```yaml
+  democlient:
+    image: "crutvikling.azurecr.io/idporten-oidc-demo-client"
+    pull_policy: always
+    #  image: "idporten-democlient"
+    environment:
+      SPRING_PROFILES_ACTIVE: eidas, eidas-docker
+```
+
 Start docker containers in this order to run demo country CA against local ID-porten:
 
 1. docker compose for idporten-c2id-server repo
