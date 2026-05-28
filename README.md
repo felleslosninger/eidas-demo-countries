@@ -51,31 +51,7 @@ Add the following to your /etc/hosts file for convenience to access the differen
     127.0.0.1 eidas-idporten-proxy
 ```
 
-Build images for eidas-idporten-proxy and eidas-proxy, these images are referenced in the docker-compose-local-idporten, but are not yet published to CR and need to be built locally for now:
-
-In the root of the eidas-proxy repository, run:
-
-```bash
-docker build --no-cache \
-  --build-arg GIT_PACKAGE_USERNAME \
-  --build-arg GIT_PACKAGE_TOKEN \
-  -f docker/dev.Dockerfile \
-  -t eidas-proxy:local-dev \
-  .
-```
-
-In the root of the eidas-idporten-proxy repository, run:
-
-```bash
-docker build \
-    --build-arg GIT_PACKAGE_USERNAME \
-    --build-arg GIT_PACKAGE_TOKEN \
-    -f docker/dev.Dockerfile \
-    -t eidas-idporten-proxy:local-dev \
-    .
-```
-
-Change the active spring profiles for the idporten-oidc-demo-client specified in the docker-compose file of the idporten-login repository
+Change the active spring profiles for the idporten-oidc-demo-client specified in the docker-compose file of the `idporten-login` repository
 ```yaml
   democlient:
     image: "crutvikling.azurecr.io/idporten-oidc-demo-client"
@@ -89,17 +65,17 @@ Start docker containers in this order to run demo country CA against local ID-po
 
 1. docker compose for idporten-c2id-server repo
 2. docker compose for idporten-login repo
+3. docker compose for eidas-demo-countries
+4. docker compose for eidas-proxy
+5. docker compose for eidas-idporten-proxy
 
-both can be started with the command:
+All docker compose services can be started with the command:
 ```bash
 docker-compose up --build
 ```
 
-3. docker compose for eidas-demo-countries with local idporten configuration (docker-compose-local-idporten.yml)
-```bash
-docker-compose -f docker-compose-local-idporten.yml up --build
-```
-This will run the demo country CA with the eidas-idporten-proxy and eidas-proxy configured to connect to the local ID-porten instance instead of the test or systest environments.
+This will allow you to run the demo country CA, eidas-proxy with the eidas-idporten-proxy configured for connecting to your local ID-porten instance instead of the test or systest environments. 
+This setup is tested with choosing in LoA "level D" ( = substantial). This will match the `testId` client that is configured locally with substantial LoA level. This can be configured here in the idporten-login repo `idporten-login/src/main/resources/profiles/idporten/docker/eid-providers.yaml`
 
 ### Test users
 The demo IdP includes predefined test users you can use during a login flow. The most relevant ones are:
@@ -241,4 +217,4 @@ autonumber
     Note over IL,C2ID: session handling
     IL-->>SP: Access Granted
     SP->>User: Access Granted
-```    
+```
