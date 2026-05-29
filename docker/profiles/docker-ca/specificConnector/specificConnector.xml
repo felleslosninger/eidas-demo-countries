@@ -22,7 +22,7 @@
     <!-- issuer name -->
     <entry key="issuer.name">specificConnector</entry>
     <!-- node's url to send the binary light token related to the request -->
-    <entry key="specific.connector.request.url">http://eidas-demo-ca:8080/EidasNodeConnector/SpecificConnectorRequest</entry>
+    <entry key="specific.connector.request.url">http://eidas-demo-ca:8084/EidasNodeConnector/SpecificConnectorRequest</entry>
 
     <entry key="relaystate.randomize.null">true</entry>
 
@@ -33,7 +33,7 @@
     <entry key="max.time.ip">60</entry>
     <entry key="trusted.sp.domains">all</entry>
     <entry key="security.header.CSP.enabled">true</entry>
-    <entry key="security.header.CSP.report.uri">http://eidas-demo-ca:8080/SpecificConnector/cspReportHandler</entry><!-- uri used for the CSP reporting feature-->
+    <entry key="security.header.CSP.report.uri">http://eidas-demo-ca:8084/SpecificConnector/cspReportHandler</entry><!-- uri used for the CSP reporting feature-->
     <entry key="security.header.XXssProtection.block">true</entry>
     <entry key="security.header.XContentTypeOptions.noSniff">true</entry>
     <entry key="security.header.XFrameOptions.sameOrigin">true</entry>

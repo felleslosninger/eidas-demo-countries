@@ -22,7 +22,7 @@ docker-compose up --build
 ```
 This will run two docker services each with a tomcat instance with all the six EU-war files deployed for running demo country.
 
-To test go to: http://eidas-demo-ca:8080/SP
+To test go to: http://eidas-demo-ca:8084/SP
 and choose SP Country: CA and Citizen Country: CB.
 Then select "Do not request" in section "Requested core attributes" and show natural person and click as optional or mandatory the 4 required attributes. Then next until reach idp.
 Users are listed in <tomcat>/eu-config/idp/user.properties folder in the docker container on format <username>=<passord>. You may start with dim=dim.
@@ -31,6 +31,51 @@ Country CA is on port 8080 and Country CB is on port 8081.
 
 To setup more counties duplicate dev.CB.Dockerfile and modifiy to port for a different country, the eu-config package supports 6 countries: CA, CB, CC, CD, CE, CF.
 E.g as listed in eidas-config/sp/sp.properties inside the docker container.
+
+### Run demo county CA against local ID-porten for local testing
+Add the following to your /etc/hosts file for convenience to access the different nodes by name instead of localhost and port
+```
+    # idporten local dev
+    127.0.0.1 c2id
+    127.0.0.1 minid
+    127.0.0.1 idporten
+    127.0.0.1 user-service
+    127.0.0.1 minidsi
+    127.0.0.1 minid
+    127.0.0.1 scope-api
+    127.0.0.1 freg-gateway:
+    127.0.0.1 eidas-demo-ca
+    # eIDAS local dev
+    127.0.0.1 eidas-connector
+    127.0.0.1 eidas-proxy
+    127.0.0.1 eidas-idporten-proxy
+```
+
+Change the active spring profiles for the idporten-oidc-demo-client specified in the docker-compose file of the `idporten-login` repository
+```yaml
+  democlient:
+    image: "crutvikling.azurecr.io/idporten-oidc-demo-client"
+    pull_policy: always
+    #  image: "idporten-democlient"
+    environment:
+      SPRING_PROFILES_ACTIVE: eidas, eidas-docker
+```
+
+Start docker containers in this order to run demo country CA against local ID-porten:
+
+1. docker compose for idporten-c2id-server repo
+2. docker compose for idporten-login repo
+3. docker compose for eidas-demo-countries
+4. docker compose for eidas-proxy
+5. docker compose for eidas-idporten-proxy
+
+All docker compose services can be started with the command:
+```bash
+docker-compose up --build
+```
+
+This will allow you to run the demo country CA, eidas-proxy with the eidas-idporten-proxy configured for connecting to your local ID-porten instance instead of the test or systest environments. 
+This setup is tested with choosing in LoA "level D" ( = substantial). This will match the `testId` client that is configured locally with substantial LoA level. This can be configured here in the idporten-login repo `idporten-login/src/main/resources/profiles/idporten/docker/eid-providers.yaml`
 
 ### Test users
 The demo IdP includes predefined test users you can use during a login flow. The most relevant ones are:
@@ -172,4 +217,4 @@ autonumber
     Note over IL,C2ID: session handling
     IL-->>SP: Access Granted
     SP->>User: Access Granted
-```    
+```

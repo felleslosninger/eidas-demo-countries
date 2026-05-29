@@ -21,10 +21,10 @@
 <properties>
     <!-- Connector  -->
     <!-- Connector assertion URL -->
-    <entry key="connector.assertion.url">http://eidas-demo-ca:8080/EidasNodeConnector/ColleagueResponse</entry>
+    <entry key="connector.assertion.url">http://eidas-demo-ca:8084/EidasNodeConnector/ColleagueResponse</entry>
 
     <!--connector Metadata -->
-    <entry key="connector.metadata.url">http://eidas-demo-ca:8080/EidasNodeConnector/ConnectorMetadata</entry>
+    <entry key="connector.metadata.url">http://eidas-demo-ca:8084/EidasNodeConnector/ConnectorMetadata</entry>
 
     <!-- METADATA configuration -->
     <!-- Connector contact -->
@@ -51,7 +51,7 @@
     <entry key="service1.name">LOCAL-EIDAS-CA</entry>
     <entry key="service1.skew.notbefore">0</entry>
     <entry key="service1.skew.notonorafter">0</entry>
-    <entry key="service1.metadata.url">http://eidas-demo-ca:8080/EidasNodeProxy/ServiceMetadata</entry>
+    <entry key="service1.metadata.url">http://eidas-demo-ca:8084/EidasNodeProxy/ServiceMetadata</entry>
 
     <!-- Proxy-Service CB-->
     <entry key="service2.id">CB</entry>
@@ -90,7 +90,7 @@
 
     <!-- SECURITY POLICY -->
     <!-- uri used for the CSP reporting feature-->
-    <entry key="security.header.CSP.report.uri">http://eidas-demo-ca:8080/EidasNodeConnector/cspReportHandler</entry>
+    <entry key="security.header.CSP.report.uri">http://eidas-demo-ca:8084/EidasNodeConnector/cspReportHandler</entry>
 
     <!-- value of the NodeCountry to be published in the metadata-->
     <entry key="metadata.node.country">CA</entry>
@@ -99,7 +99,7 @@
     <entry key="metadata.restrict.http">false</entry>
     <entry key="check.certificate.validity.period">false</entry>
     <!--URL for specific-connector response receiver -->
-    <entry key="specific.connector.response.receiver">http://eidas-demo-ca:8080/SpecificConnector/ConnectorResponse</entry>
+    <entry key="specific.connector.response.receiver">http://eidas-demo-ca:8084/SpecificConnector/ConnectorResponse</entry>
 
     <entry key="disallow.self.signed.certificate">false</entry>
 </properties>

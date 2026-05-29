@@ -6,7 +6,7 @@ RUN apk add --no-cache zip unzip curl
 WORKDIR /data
 
 ARG EIDAS_NODE_VERSION=3.0.0
-ARG BC_VERSION=1.81
+ARG BC_VERSION=1.84
 ARG EIDAS_NODE_URL=https://ec.europa.eu/digital-building-blocks/artifact/repository/eid/eu/eIDAS-node/${EIDAS_NODE_VERSION}/eIDAS-node-${EIDAS_NODE_VERSION}.zip
 
 # Download eIDAS-Node Software
@@ -44,10 +44,10 @@ RUN apt update && apt install wget -y
 COPY docker/tomcat-config/setenv.sh ${CATALINA_HOME}/bin/
 COPY docker/tomcat-config/server.xml ${CATALINA_HOME}/conf/server.xml
 
-RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/' ${CATALINA_HOME}/conf/server.xml
+RUN sed -i '/maxParameterCount="1000"/ s/$/\n maxHttpHeaderSize="65536"\n/; s/port="8080"/port="8084"/' ${CATALINA_HOME}/conf/server.xml
 
 # install bouncycastle
-ARG BC_VERSION=1.81
+ARG BC_VERSION=1.84
 ARG BC_JAR=bcprov-jdk18on-${BC_VERSION}.jar
 ARG BC_URL=https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk18on/${BC_VERSION}/${BC_JAR}
 COPY docker/bouncycastle/java_bc.security /opt/java/openjdk/conf/security/java_bc.security
@@ -68,4 +68,4 @@ COPY --from=builder /data/WARS/*.war ${CATALINA_HOME}/webapps/
 # eIDAS audit log folder
 RUN mkdir -p ${CATALINA_HOME}/eidas/logs && chmod 744 ${CATALINA_HOME}/eidas/logs
 
-EXPOSE 8080
+EXPOSE 8084
