@@ -20,19 +20,30 @@ Start docker containers:
 ```
 docker-compose up --build
 ```
-This will run two docker services each with a tomcat instance with all the six EU-war files deployed for running demo country.
+Each demo country runs as its own docker service with a tomcat instance with all the six EU-war
+files deployed (`EidasNodeConnector`, `EidasNodeProxy`, `SpecificConnector`,
+`SpecificProxyService`, `SP`, `IdP`).
+
+Only **country CA is enabled by default** — the `eidas-demo-cb` service is commented out in
+`docker-compose.yaml` ("Kommenter inn ved behov"). Uncomment it if you need a country-to-country
+flow, which is the only way to exercise CA → CB below.
 
 To test go to: http://eidas-demo-ca:8084/SP
-and choose SP Country: CA and Citizen Country: CB.
+and choose SP Country: CA and Citizen Country: CB (requires `eidas-demo-cb` to be uncommented).
 Then select "Do not request" in section "Requested core attributes" and show natural person and click as optional or mandatory the 4 required attributes. Then next until reach idp.
 Users are listed in <tomcat>/eu-config/idp/user.properties folder in the docker container on format <username>=<passord>. You may start with dim=dim.
 
-Country CA is on port 8080 and Country CB is on port 8081.
+Country CA is on port 8084 and Country CB is on port 8081.
 
 To setup more counties duplicate dev.CB.Dockerfile and modifiy to port for a different country, the eu-config package supports 6 countries: CA, CB, CC, CD, CE, CF.
 E.g as listed in eidas-config/sp/sp.properties inside the docker container.
 
-### Run demo county CA against local ID-porten for local testing
+### Run demo country CA against local ID-porten for local testing
+
+This runs the outbound direction: a Norwegian citizen using their Norwegian eID
+(BankID/MinID, via `idporten-login`) to log into a **foreign** SP — here, demo country CA's own
+SP — brokered out through Norway's proxy pair (`eidas-proxy`/`eidas-idporten-proxy`).
+
 Add the following to your /etc/hosts file for convenience to access the different nodes by name instead of localhost and port
 ```
     # idporten local dev
@@ -51,16 +62,6 @@ Add the following to your /etc/hosts file for convenience to access the differen
     127.0.0.1 eidas-idporten-proxy
 ```
 
-Change the active spring profiles for the idporten-oidc-demo-client specified in the docker-compose file of the `idporten-login` repository
-```yaml
-  democlient:
-    image: "crutvikling.azurecr.io/idporten-oidc-demo-client"
-    pull_policy: always
-    #  image: "idporten-democlient"
-    environment:
-      SPRING_PROFILES_ACTIVE: eidas, eidas-docker
-```
-
 Start docker containers in this order to run demo country CA against local ID-porten:
 
 1. docker compose for idporten-c2id-server repo
@@ -75,7 +76,14 @@ docker-compose up --build
 ```
 
 This will allow you to run the demo country CA, eidas-proxy with the eidas-idporten-proxy configured for connecting to your local ID-porten instance instead of the test or systest environments. 
-This setup is tested with choosing in LoA "level D" ( = substantial). This will match the `testId` client that is configured locally with substantial LoA level. This can be configured here in the idporten-login repo `idporten-login/src/main/resources/profiles/idporten/docker/eid-providers.yaml`
+
+To trigger the flow, open http://eidas-demo-ca:8084/SP, set SP Country to `CA` and Citizen
+Country to `NO`, then continue through to the login step and authenticate against your local
+`idporten-login` (e.g. via the `testId` provider on the selector). Country `NO` here routes to
+the local `eidas-proxy` — see `service6.metadata.url` in
+`docker/profiles/docker-ca/connector/eidas.xml`, which points at
+`http://eidas-proxy:8082/ServiceMetadata` — which forwards to `eidas-idporten-proxy` and from
+there to `idporten-login`.
 
 ### Test users
 The demo IdP includes predefined test users you can use during a login flow. The most relevant ones are:
@@ -131,7 +139,9 @@ If you have updated the encryption/signing key in the eidas-idporten-connector, 
   - If a foreign country updates its metadata signing certificate, import their new metadata signing certificate chain into these truststores.
 
 ### Configuration of trust of Norwegian metadata signing certificate
-Import in docker/profiles/<ENVIRONMENT>/keystore/eidasKeyStore.p12 the Norwegian metadata signing certificate. Remove old of naming format norwegian-eidasnode-metadata-<environment>.
+Import the Norwegian metadata signing certificate into the truststores
+docker/profiles/<ENVIRONMENT>/connector/keystore/eidasTrustStore.p12 and
+docker/profiles/<ENVIRONMENT>/proxy/keystore/eidasTrustStore.p12. Remove old of naming format norwegian-eidasnode-metadata-<environment>.
 Use the program Keystore Exporter or plain java keytool from CMD to import certificate chain to trust.
 
 Keystore password is local-demo for docker
